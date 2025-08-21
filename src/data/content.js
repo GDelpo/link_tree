@@ -16,7 +16,7 @@ export const profileData = {
     'Ex deportista.',
   ],
   description:
-    'Licenciado en Educación Física y ex deportista con más de 10 años de experiencia. Mi método combina la ciencia del entrenamiento y la vivencia personal para desarrollar el máximo potencial de cada atleta. Mi objetivo es transformar la dedicación en resultados.',
+    'Preparador físico y ex deportista con 10+ años de experiencia. Combino ciencia y vivencia para que transformes tu dedicación en resultados.',
   profileImage:
     'https://ugc.production.linktr.ee/4e61f56b-abb1-449a-9d43-e418532e4b62_1.jpeg?io=true&size=avatar-v3_0',
   socials: [
@@ -94,7 +94,7 @@ export const accordionItemsData = [
       'Explorá mis programas diseñados científicamente para ayudarte a alcanzar tus metas, sea cual sea tu nivel.',
     // Hacemos referencia a los programas para que App.jsx los renderice
     content: trainingPrograms,
-  },
+  },
 ];
 
 // 4. Posts de Instagram

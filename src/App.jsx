@@ -8,6 +8,7 @@ import SimpleLayout from './layouts/SimpleLayout';
 // Pages
 import Home from './pages/Home';
 import Links from './pages/Links';
+import About from './pages/About'; // 1. Importa la nueva página
 
 function App() {
   return (
@@ -16,9 +17,8 @@ function App() {
         {/* Rutas que usan el Layout Principal (con Sidebar) */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          {/* Aquí agregarías otras rutas que usen el sidebar, ej: */}
-          {/* <Route path="/sobre-mi" element={<SobreMi />} /> */}
-          {/* <Route path="/podcast" element={<Podcast />} /> */}
+          <Route path="/about" element={<About />} /> {/* 2. Añade la ruta */}
+          {/* Puedes cambiar la ruta de /sobre-mi a /about en tu Sidebar.jsx */}
         </Route>
 
         {/* Rutas que usan el Layout Simple (con Navbar) */}

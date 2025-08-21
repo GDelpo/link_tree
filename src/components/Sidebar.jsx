@@ -11,10 +11,8 @@ const Sidebar = ({ isOpen, onClose }) => {
   // Íconos y texto basados en la imagen de referencia
   const navItems = [
     { to: "/", icon: Home, text: "Home" },
-    { to: "/about", icon: User, text: "About" },
-    { to: "/portfolio", icon: Briefcase, text: "Portfolio" },
+    { to: "/about", icon: User, text: "Sobre Mí" },
     { to: "/links", icon: Link, text: "Links" },
-    { to: "/contact", icon: Send, text: "Contact" },
   ];
 
    return (
