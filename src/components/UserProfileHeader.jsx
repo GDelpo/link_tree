@@ -2,9 +2,8 @@ import React from 'react';
 import MorphingAvatar from './MorphingAvatar';
 import ProfileInfo from './ProfileInfo';
 import CircularSocialLinks from './CircularSocialLinks';
-import { profileData } from '../data/content'; 
 
-const ProfileHeader = () => {
+const UserProfileHeader = ({profileData}) => {
   return (
     <div className="max-w-4xl w-full">
       <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-8 md:gap-12">
@@ -26,4 +25,4 @@ const ProfileHeader = () => {
   );
 };
 
-export default ProfileHeader;
+export default UserProfileHeader;

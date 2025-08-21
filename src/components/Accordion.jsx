@@ -32,7 +32,6 @@ const Accordion = ({ items }) => {
             <div className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
                 <div className={`px-6 pb-6 pt-2 transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-                  {/* El div problemático fue eliminado de aquí */}
                   {item.collapsibleContent}
                 </div>
               </div>
