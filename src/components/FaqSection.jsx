@@ -13,14 +13,12 @@ const FaqSection = () => {
   }));
 
   return (
-    <section className="py-12 sm:py-16">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-8 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-sky-700 dark:from-white dark:to-sky-400">
           Preguntas Frecuentes
         </h2>
         <Accordion items={accordionItems} />
       </div>
-    </section>
   );
 };
 

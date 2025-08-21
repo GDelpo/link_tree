@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, User, Briefcase, FileText, Send } from 'lucide-react';
+import { Home, User, Briefcase, Link, Send } from 'lucide-react';
 
 // 1. Acepta props `isOpen` y `onClose` para controlar la visibilidad
 const Sidebar = ({ isOpen, onClose }) => {
@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { to: "/", icon: Home, text: "Home" },
     { to: "/about", icon: User, text: "About" },
     { to: "/portfolio", icon: Briefcase, text: "Portfolio" },
-    { to: "/news", icon: FileText, text: "News" },
+    { to: "/links", icon: Link, text: "Links" },
     { to: "/contact", icon: Send, text: "Contact" },
   ];
 
