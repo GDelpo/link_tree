@@ -1,49 +1,79 @@
 import React, { useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useLayoutContext } from '@/contexts/LayoutContext.jsx';
 
 // Importaciones de todos tus componentes y datos
-import UserProfileHeader from '../components/UserProfileHeader';
-import Accordion from '../components/Accordion';
-import ProgramCard from '../components/ProgramCard';
-import InstagramCard from '../components/InstagramCard';
-import YouTubeCard from '../components/YouTubeCard';
-import PersonalizedPlanCTA from '../components/PersonalizedPlanCTA';
-import FaqSection from '../components/FaqSection';
-import { Instagram, Youtube } from 'lucide-react';
+import Accordion from '@/components/Accordion';
+import InstagramCard from '@/components/InstagramCard';
+import YouTubeCard from '@/components/YouTubeCard';
+import PersonalizedPlanCTA from '@/components/PersonalizedPlanCTA';
+import ProgramCard from '@/components/ProgramCard';
+import SectionTitle from '@/components/SectionTitle';
+import PageSection from '@/components/PageSection';
+import ContentCard from '@/components/ContentCard';
+import CardGrid from '@/components/CardGrid';
+import { HelpCircle } from 'lucide-react';
+import UserProfileHeader from '@/components/UserProfileHeader';
+import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
 import {
   profileData,
   accordionItemsData,
   instagramPosts,
   youTubeVideos,
-} from '../data/content';
+  personalizedPlanLink,
+  faqData,
+} from '@/data';
 
-// 1. Definimos las secciones que tendrá la página y el texto para la Navbar.
+/**
+ * Define las secciones de la página que se usarán para generar los enlaces de navegación
+ * en la barra superior.
+ */
 const pageSections = [
-  { id: 'programas', text: 'Programas' },
-  { id: 'contacto', text: 'Contacto' },
-  { id: 'redes', text: 'Redes' },
-  { id: 'faq', text: 'Preguntas' },
+  { id: 'programas', text: 'PROGRAMAS' },
+  { id: 'contacto', text: 'CONTACTO' },
+  { id: 'redes', text: 'REDES' },
+  { id: 'faq', text: 'PREGUNTAS' },
 ];
 
-// Componente helper para los títulos de sección (ya lo tenías)
-const SectionTitle = ({ icon: Icon, children }) => (
-  <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-3">
-    <Icon className="text-sky-500 dark:text-sky-400" size={28} />
-    {children}
-  </h2>
-);
+/** Pre-procesa los datos de los programas para inyectar el componente ProgramCard en el acordeón. */
+const accordionItems = accordionItemsData.map((item) => ({
+  ...item,
+  collapsibleContent: (
+    <div className="flex flex-col gap-4">
+      {item.content.map((program) => (
+        <ProgramCard
+          key={program.id}
+          title={program.title}
+          description={program.description}
+          duration={program.duration}
+          link={program.link}
+        />
+      ))}
+    </div>
+  ),
+}));
 
+/** Pre-procesa los datos de las FAQ para dar estilo al texto del contenido desplegable. */
+const faqAccordionItems = faqData.map((item) => ({
+  ...item,
+  collapsibleContent: (
+    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{item.collapsibleContent}</p>
+  )
+}));
+
+/**
+ * Página principal de "Links", que actúa como un agregador de contenido.
+ * Muestra el perfil, programas, redes sociales y preguntas frecuentes.
+ */
 function Links() {
-  // 2. Obtenemos la función `setNavLinks` que nos provee SimpleLayout
-  const { setNavLinks } = useOutletContext();
+  // Consume el contexto para obtener la función `setNavLinks` directamente, sin prop drilling.
+  const { setNavLinks } = useLayoutContext();
 
-  // 3. Usamos useEffect para comunicar las secciones al layout cuando el componente se carga
+  // Efecto para establecer y limpiar los enlaces de navegación de esta página.
   useEffect(() => {
-    // Verificamos que setNavLinks exista antes de llamarlo
     if (setNavLinks) {
       setNavLinks(pageSections);
     }
-    // Limpiamos los links cuando el componente se va para no afectar otras páginas
+    // Función de limpieza: se ejecuta cuando el componente se desmonta.
     return () => {
       if (setNavLinks) {
         setNavLinks([]);
@@ -51,64 +81,45 @@ function Links() {
     };
   }, [setNavLinks]);
 
-  // Tu lógica para procesar los items del accordion (sin cambios)
-  const accordionItems = accordionItemsData.map((item) => ({
-    ...item,
-    collapsibleContent: (
-      <div className="flex flex-col gap-4">
-        {item.content.map((program) => (
-          <ProgramCard
-            key={program.id}
-            title={program.title}
-            description={program.description}
-            duration={program.duration}
-            link={program.link}
-          />
-        ))}
-      </div>
-    ),
-  }));
-
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Fondo decorativo */}
+    <div>
       <div className="fixed inset-0 -z-10 bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-slate-950"></div>
 
-      {/* 4. Contenido envuelto en secciones con IDs */}
-      <section id="header" className="py-6">
+      <PageSection id="header">
         <UserProfileHeader profileData={profileData}/>
-      </section>
+      </PageSection>
 
-      <section id="programas" className="py-6">
+      <PageSection id="programas">
         <Accordion items={accordionItems} />
-      </section>
+      </PageSection>
 
-      <section id="contacto" className="py-6">
-        <PersonalizedPlanCTA contactLink={'https://api.whatsapp.com/send?phone=541123982555&text=Hola!%20Quiero%20informaci%C3%B3n%20del%20programa%20Personalizado'} />
-      </section>
+      <PageSection id="contacto">
+        <PersonalizedPlanCTA contactLink={personalizedPlanLink} />
+      </PageSection>
 
-      <section id="redes" className="py-6 w-full flex flex-col gap-6">
-        <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-xl shadow-lg shadow-black/5 dark:shadow-black/20 p-6">
-          <SectionTitle icon={Instagram}>Últimos Posts en Instagram</SectionTitle>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-            {instagramPosts.map((post) => (
-              <InstagramCard key={post.id} post={post} />
-            ))}
-          </div>
-        </div>
-        <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-xl shadow-lg shadow-black/5 dark:shadow-black/20 p-6">
-          <SectionTitle icon={Youtube}>Últimos Videos en YouTube</SectionTitle>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-            {youTubeVideos.map((video) => (
-              <YouTubeCard key={video.id} video={video} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <PageSection id="redes" className="w-full flex flex-col gap-6">
+        <ContentCard>
+          <SectionTitle icon={SiInstagram}>Últimos Posts en Instagram</SectionTitle>
+          <CardGrid
+            items={instagramPosts}
+            renderItem={(post) => <InstagramCard post={post} />}
+          />
+        </ContentCard>
+        <ContentCard>
+          <SectionTitle icon={SiYoutube}>Últimos Videos en YouTube</SectionTitle>
+          <CardGrid
+            items={youTubeVideos}
+            renderItem={(video) => <YouTubeCard video={video} />}
+          />
+        </ContentCard>
+      </PageSection>
 
-      <section id="faq" className="py-6">
-        <FaqSection />
-      </section>
+      <PageSection id="faq">
+        <ContentCard>
+          <SectionTitle icon={HelpCircle}>Preguntas Frecuentes</SectionTitle>
+          <Accordion items={faqAccordionItems} />
+        </ContentCard>
+      </PageSection>
     </div>
   );
 }

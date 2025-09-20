@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import MorphingAvatar from './MorphingAvatar';
 import ProfileInfo from './ProfileInfo';
 import CircularSocialLinks from './CircularSocialLinks';
 
-const UserProfileHeader = ({profileData}) => {
+const UserProfileHeader = memo(({profileData}) => {
   return (
     <div className="max-w-4xl w-full">
       <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-8 md:gap-12">
@@ -13,7 +13,7 @@ const UserProfileHeader = ({profileData}) => {
         <div className="flex flex-col">
           <ProfileInfo
             name={profileData.name}
-            titles={profileData.typewriterTitles}
+            titles={profileData.titles}
             description={profileData.description}
           />
           <div className="mt-6">
@@ -23,6 +23,6 @@ const UserProfileHeader = ({profileData}) => {
       </div>
     </div>
   );
-};
+});
 
 export default UserProfileHeader;
