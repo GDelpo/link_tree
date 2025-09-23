@@ -1,19 +1,22 @@
 import React from 'react';
 import { MessageCircle, ArrowRight } from 'lucide-react';
 
-const PersonalizedPlanCTA = ({contactLink}) => {
+const PersonalizedPlanCTA = ({ contactLink }) => {
   return (
-    <section className="relative w-full rounded-xl shadow-lg shadow-sky-900/10 p-6 text-center">
-      {/* Fondo con gradiente animado */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-sky-400 to-sky-600 dark:from-sky-700 dark:to-sky-900 animate-[gradient-x_5s_ease_infinite]"></div>
-      
+    <section className="relative w-full rounded-xl shadow-lg shadow-sky-900/10 p-6 text-center overflow-hidden">
+      {/* Fondo con gradiente animado + overlay */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-400 to-sky-600 dark:from-sky-700 dark:to-sky-900 animate-[gradient-x_5s_ease_infinite]" />
+        <div className="absolute inset-0 rounded-xl bg-black/20 dark:bg-black/40" />
+      </div>
+
       <div className="flex flex-col items-center gap-4 text-white">
         <MessageCircle size={36} />
-        <h3 className="text-xl font-bold">
-          ¿Buscás algo más?
-        </h3>
-        <p className="text-sky-100 dark:text-sky-200 max-w-2xl">
-          Si ninguno de estos programas se ajusta a tus objetivos o querés llevar tu entrenamiento al siguiente nivel, creemos juntos un plan 100% personalizado para vos.
+        <h3 className="text-xl font-bold">¿Buscás algo más?</h3>
+        <p className="max-w-2xl text-slate-100 dark:text-slate-200">
+          Si ninguno de estos programas se ajusta a tus objetivos o querés llevar tu
+          entrenamiento al siguiente nivel, creemos juntos un plan 100% personalizado
+          para vos.
         </p>
         <a
           href={contactLink}

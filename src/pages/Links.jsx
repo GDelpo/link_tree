@@ -20,18 +20,31 @@ import {
   instagramPosts,
   youTubeVideos,
   personalizedPlanLink,
-  faqData,
-} from '@/data';
+  faqData
+} from '@/data/content';
+
+/**
+ * Define los identificadores únicos para cada sección de la página.
+ * Se usan para la navegación y para los `id` de los componentes `PageSection`.
+ */
+const SECTION_IDS = {
+  PROGRAMS: 'programas',
+  CONTACT: 'contacto',
+  INSTAGRAM: 'instagram',
+  YOUTUBE: 'youtube',
+  FAQ: 'faq',
+};
 
 /**
  * Define las secciones de la página que se usarán para generar los enlaces de navegación
  * en la barra superior.
  */
 const pageSections = [
-  { id: 'programas', text: 'PROGRAMAS' },
-  { id: 'contacto', text: 'CONTACTO' },
-  { id: 'redes', text: 'REDES' },
-  { id: 'faq', text: 'PREGUNTAS' },
+  { id: SECTION_IDS.PROGRAMS, text: 'PROGRAMAS' },
+  { id: SECTION_IDS.CONTACT, text: 'CONTACTO' },
+  { id: SECTION_IDS.INSTAGRAM, text: 'INSTAGRAM' },
+  { id: SECTION_IDS.YOUTUBE, text: 'YOUTUBE' },
+  { id: SECTION_IDS.FAQ, text: 'PREGUNTAS' },
 ];
 
 /** Pre-procesa los datos de los programas para inyectar el componente ProgramCard en el acordeón. */
@@ -91,15 +104,15 @@ function Links() {
         <UserProfileHeader profileData={profileData}/>
       </PageSection>
 
-      <PageSection id="programas">
+      <PageSection id={SECTION_IDS.PROGRAMS}>
         <Accordion items={accordionItems} />
       </PageSection>
 
-      <PageSection id="contacto">
+      <PageSection id={SECTION_IDS.CONTACT}>
         <PersonalizedPlanCTA contactLink={personalizedPlanLink} />
       </PageSection>
 
-      <PageSection id="redes" className="w-full overflow-x-hidden">
+      <PageSection id={SECTION_IDS.INSTAGRAM} className="w-full overflow-x-hidden">
         <ContentCard>
           <SectionTitle icon={SiInstagram}>Últimos Posts en Instagram</SectionTitle>
           <CardGrid
@@ -107,6 +120,9 @@ function Links() {
             renderItem={(post) => <InstagramCard post={post} />}
           />
         </ContentCard>
+        </PageSection>
+
+        <PageSection id={SECTION_IDS.YOUTUBE} className="w-full overflow-x-hidden">
         <ContentCard className="mt-6">
           <SectionTitle icon={SiYoutube}>Últimos Videos en YouTube</SectionTitle>
           <CardGrid
@@ -116,7 +132,7 @@ function Links() {
         </ContentCard>
       </PageSection>
 
-      <PageSection id="faq">
+      <PageSection id={SECTION_IDS.FAQ}>
         <ContentCard>
           <SectionTitle icon={HelpCircle}>Preguntas Frecuentes</SectionTitle>
           <Accordion items={faqAccordionItems} />
