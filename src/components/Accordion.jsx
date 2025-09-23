@@ -44,7 +44,7 @@ const Accordion = memo(({ items = [] }) => {
             </button>
             <div
               id={`accordion-content-${id}`}
-              className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1000px]' : 'max-h-0'}`}
+              className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-none' : 'max-h-0'}`}
             >
               <div className="p-6 pt-0">
                 {collapsibleContent}

@@ -38,7 +38,7 @@ const pageSections = [
 const accordionItems = accordionItemsData.map((item) => ({
   ...item,
   collapsibleContent: (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pt-2 pb-4">
       {item.content.map((program) => (
         <ProgramCard
           key={program.id}
@@ -56,7 +56,9 @@ const accordionItems = accordionItemsData.map((item) => ({
 const faqAccordionItems = faqData.map((item) => ({
   ...item,
   collapsibleContent: (
-    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{item.collapsibleContent}</p>
+    <p className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4">
+      {item.collapsibleContent}
+    </p>
   )
 }));
 
@@ -97,7 +99,7 @@ function Links() {
         <PersonalizedPlanCTA contactLink={personalizedPlanLink} />
       </PageSection>
 
-      <PageSection id="redes" className="w-full flex flex-col gap-6">
+      <PageSection id="redes" className="w-full overflow-x-hidden">
         <ContentCard>
           <SectionTitle icon={SiInstagram}>Últimos Posts en Instagram</SectionTitle>
           <CardGrid
@@ -105,7 +107,7 @@ function Links() {
             renderItem={(post) => <InstagramCard post={post} />}
           />
         </ContentCard>
-        <ContentCard>
+        <ContentCard className="mt-6">
           <SectionTitle icon={SiYoutube}>Últimos Videos en YouTube</SectionTitle>
           <CardGrid
             items={youTubeVideos}

@@ -3,7 +3,7 @@ import { MessageCircle, ArrowRight } from 'lucide-react';
 
 const PersonalizedPlanCTA = ({contactLink}) => {
   return (
-    <section className="relative w-full rounded-xl shadow-lg shadow-sky-900/10 p-6 text-center overflow-hidden">
+    <section className="relative w-full rounded-xl shadow-lg shadow-sky-900/10 p-6 text-center">
       {/* Fondo con gradiente animado */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-sky-400 to-sky-600 dark:from-sky-700 dark:to-sky-900 animate-[gradient-x_5s_ease_infinite]"></div>
       
