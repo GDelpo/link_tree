@@ -9,3 +9,4 @@ export * from './instagram';
 export * from './youtube';
 export * from './faq';
 export * from './personalData';
+export * from './announcement';
