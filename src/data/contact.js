@@ -12,7 +12,7 @@ export const generateWhatsAppLink = (programName) =>
     `${WHATSAPP_MESSAGE_PREFIX} ${programName}`
   )}`;
 
-export const personalizedPlanLink = generateWhatsAppLink('Personalizado');
+export const personalizedPlanLink = generateWhatsAppLink('personalizado');
 
 export const personalizedPlanCtaData = {
   icon: MessageCircle,
