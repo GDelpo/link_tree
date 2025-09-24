@@ -1,38 +1,41 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { routeConfig } from '@/config/routes';
+import { buildMainNavItems } from '@/config/navigation';
 
-/**
- * Agrupa las rutas por el layout que utilizan.
- * @param {Array} routes - La configuración de rutas.
- * @returns {Map<React.Component, Array>} Un mapa donde las claves son los componentes de Layout
- * y los valores son arrays de las rutas que usan ese layout.
- */
-const groupRoutesByLayout = (routes) => {
-  const layoutMap = new Map();
-  routes.forEach((route) => {
-    const { layout } = route;
-    if (!layoutMap.has(layout)) {
-      layoutMap.set(layout, []);
-    }
-    layoutMap.get(layout).push(route);
-  });
-  return layoutMap;
+// Layouts
+import MainLayout from '@/layouts/MainLayout';
+import SimpleLayout from '@/layouts/SimpleLayout';
+
+// Mapeo de strings → layouts reales
+const layoutMap = {
+  main: MainLayout,
+  simple: SimpleLayout,
 };
 
 function App() {
-  const routesByLayout = groupRoutesByLayout(routeConfig);
+  const mainNavItems = buildMainNavItems(routeConfig);
 
   return (
     <BrowserRouter>
       <Routes>
-        {Array.from(routesByLayout.entries()).map(([Layout, routes]) => (
-          <Route key={Layout.name} element={<Layout />}>
-            {routes.map(({ path, component }) => (
-              <Route key={path} path={path} element={component} />
-            ))}
-          </Route>
-        ))}
+        {Object.entries(
+          routeConfig.reduce((acc, route) => {
+            const { layout } = route;
+            if (!acc[layout]) acc[layout] = [];
+            acc[layout].push(route);
+            return acc;
+          }, {})
+        ).map(([layoutKey, routes]) => {
+          const Layout = layoutMap[layoutKey];
+          return (
+            <Route key={layoutKey} element={<Layout navItems={mainNavItems} />}>
+              {routes.map(({ path, component: Component }) => (
+                <Route key={path} path={path} element={<Component />} />
+              ))}
+            </Route>
+          );
+        })}
 
         {/* Ruta para páginas no encontradas */}
         <Route path="*" element={<h1>404 Not Found</h1>} />

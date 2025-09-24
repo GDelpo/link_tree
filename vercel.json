@@ -2,10 +2,4 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
   ]
-  
-  //, "redirects": [
-  //   { "source": "/ig", "destination": "https://instagram.com/tuusuario", "permanent": false },
-  //   { "source": "/gh", "destination": "https://github.com/tuusuario", "permanent": false },
-  //   { "source": "/yt", "destination": "https://youtube.com/@tuusuario", "permanent": false }
-  // ]
 }
