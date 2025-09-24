@@ -3,8 +3,7 @@ import { Mail } from 'lucide-react';
 import { SiInstagram, SiYoutube, SiWhatsapp } from '@icons-pack/react-simple-icons';
 import { personalizedPlanLink } from './contact';
 
-const emailObject = personalInfo.find(item => item.label === 'Email');
-const emailLink = `mailto:${emailObject.value}`;
+const emailLink = `mailto:${personalInfo.email}`;
 
 export const profileData = {
   name: 'Juan Cruz Arbelais',

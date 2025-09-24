@@ -34,12 +34,16 @@ const About = () => {
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{profileData.name}</h3>
             <p className="text-slate-600 dark:text-slate-300 mb-6">{profileData.description}</p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-8">
-              {personalInfo.map(item => (
-                <li key={item.label}>
-                  <span className="font-bold text-slate-800 dark:text-white">{item.label}:</span>
-                  <span className="text-slate-600 dark:text-slate-400 ml-2">{item.value}</span>
-                </li>
-              ))}
+            {Object.entries(personalInfo).map(([key, value]) => (
+              <li key={key}>
+                <span className="font-bold text-slate-800 dark:text-white">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="text-slate-600 dark:text-slate-400 ml-2">
+                  {value}
+                </span>
+              </li>
+            ))}
             </ul>
           </div>
         </div>
