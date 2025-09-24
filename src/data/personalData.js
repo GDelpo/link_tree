@@ -2,8 +2,8 @@ export const personalInfo = [
   { label: 'Nacimiento', value: '01.07.1996' },
   { label: 'Edad', value: '28' },
   { label: 'Ciudad', value: 'Buenos Aires, Argentina' },
-  { label: 'Email', value: 'tuemail@ejemplo.com' },
-  { label: 'Teléfono', value: '+54 9 11 1234 5678' },
+  { label: 'Email', value: 'juancruzarbelais@gmail.com' },
+  { label: 'Teléfono', value: '+54 9 11 2398 2555' },
 ];
 
 export const education = [

@@ -1,55 +1,73 @@
 import React, { useState, memo } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
+/**
+ * Componente de Acordeón animado. Muestra una lista de items que pueden ser expandidos
+ * para mostrar contenido adicional con una transición suave.
+ * @param {{ items: Array<{id: string, title: string, icon?: React.ElementType, description?: string, collapsibleContent: React.ReactNode}> }} props
+ */
 const Accordion = memo(({ items = [] }) => {
-  const [openId, setOpenId] = useState(null);
+  // Estado para rastrear qué item del acordeón está actualmente abierto.
+  const [openItemId, setOpenItemId] = useState(null);
 
-  const toggleItem = (id) => {
-    setOpenId(openId === id ? null : id);
+  /**
+   * Maneja el clic en un item del acordeón.
+   * Si el item clickeado ya está abierto, lo cierra. Si no, abre el nuevo.
+   * @param {string} id - El ID del item clickeado.
+   */
+  const handleToggleItem = (id) => {
+    setOpenItemId(prevOpenId => (prevOpenId === id ? null : id));
   };
 
   return (
-    <div className="space-y-4">
-      {items.map((item) => {
-        const { id, icon: Icon, title, description, collapsibleContent } = item;
-        const isOpen = openId === id;
+    <div className="w-full">
+      {items.map((item, index) => {
+        const isOpen = openItemId === item.id;
+        const Icon = item.icon;
 
         return (
-          <div key={id} className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-lg border border-slate-200/50 dark:border-slate-700/50 rounded-xl shadow-lg shadow-black/5 dark:shadow-black/20 overflow-hidden transition-all duration-300">
+          <div key={item.id} className={`border-slate-200 dark:border-slate-700 ${index < items.length - 1 ? 'border-b' : ''} transition-colors duration-300`}>
+            {/* Botón que actúa como cabecera del item del acordeón */}
             <button
-              onClick={() => toggleItem(id)}
-              className="w-full flex justify-between items-start text-left p-6"
+              onClick={() => handleToggleItem(item.id)}
+              className="w-full flex justify-between items-start text-left py-4"
               aria-expanded={isOpen}
-              aria-controls={`accordion-content-${id}`}
+              aria-controls={`accordion-content-${item.id}`}
             >
               <div className="flex items-start gap-4">
-                {/* Renderizado condicional: muestra el ícono solo si está definido en el item. */}
-                {Icon && (
-                  <Icon
-                    className="text-sky-500 dark:text-sky-400 mt-1 flex-shrink-0"
-                    size={24}
-                    aria-hidden="true"
-                  />
-                )}
-                <div className="flex flex-col text-left">
-                  <span className="font-bold text-lg text-slate-800 dark:text-white">{title}</span>
-                  {description && <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{description}</p>}
+                {Icon && <Icon className="h-6 w-6 text-sky-500 mt-1 flex-shrink-0" />}
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg text-slate-800 dark:text-slate-100">{item.title}</h3>
+                  {item.description && <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{item.description}</p>}
                 </div>
               </div>
               <ChevronDown
-                className={`transform transition-transform duration-300 text-slate-500 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180' : ''}`}
-                size={24}
-                aria-hidden="true"
+                className={`h-5 w-5 text-slate-500 dark:text-slate-400 transform transition-transform duration-300 mt-1 ml-4 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
               />
             </button>
-            <div
-              id={`accordion-content-${id}`}
-              className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-none' : 'max-h-0'}`}
-            >
-              <div className="p-6 pt-0">
-                {collapsibleContent}
-              </div>
-            </div>
+
+            {/* Contenido colapsable con animación de entrada y salida */}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.section
+                  id={`accordion-content-${item.id}`}
+                  initial="collapsed"
+                  animate="open"
+                  exit="collapsed"
+                  variants={{
+                    open: { opacity: 1, height: 'auto' },
+                    collapsed: { opacity: 0, height: 0 }
+                  }}
+                  transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+                  className="overflow-hidden"
+                >
+                  <div className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4">
+                    {item.collapsibleContent}
+                  </div>
+                </motion.section>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

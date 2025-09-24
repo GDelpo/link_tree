@@ -19,8 +19,8 @@ const PageSection = memo(({ id, className = '', children }) => {
       id={id}
       // Aplicamos clases de transición y cambiamos la opacidad y posición
       // basándonos en si el componente está a la vista (inView).
-      className={`py-6 transition-all duration-700 ease-out ${className} ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      className={`py-6 transition-all duration-1000 ease-in-out ${className} ${
+        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
       {children}

@@ -1,30 +1,38 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { routeConfig } from '@/config/routes';
 
-// Layouts
-import MainLayout from './layouts/MainLayout';
-import SimpleLayout from './layouts/SimpleLayout';
-
-// Pages
-import Home from './pages/Home';
-import Links from './pages/Links';
-import About from './pages/About'; // 1. Importa la nueva página
+/**
+ * Agrupa las rutas por el layout que utilizan.
+ * @param {Array} routes - La configuración de rutas.
+ * @returns {Map<React.Component, Array>} Un mapa donde las claves son los componentes de Layout
+ * y los valores son arrays de las rutas que usan ese layout.
+ */
+const groupRoutesByLayout = (routes) => {
+  const layoutMap = new Map();
+  routes.forEach((route) => {
+    const { layout } = route;
+    if (!layoutMap.has(layout)) {
+      layoutMap.set(layout, []);
+    }
+    layoutMap.get(layout).push(route);
+  });
+  return layoutMap;
+};
 
 function App() {
+  const routesByLayout = groupRoutesByLayout(routeConfig);
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rutas que usan el Layout Principal (con Sidebar) */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} /> {/* 2. Añade la ruta */}
-          {/* Puedes cambiar la ruta de /sobre-mi a /about en tu Sidebar.jsx */}
-        </Route>
-
-        {/* Rutas que usan el Layout Simple (con Navbar) */}
-        <Route element={<SimpleLayout />}>
-          <Route path="/links" element={<Links />} />
-        </Route>
+        {Array.from(routesByLayout.entries()).map(([Layout, routes]) => (
+          <Route key={Layout.name} element={<Layout />}>
+            {routes.map(({ path, component }) => (
+              <Route key={path} path={path} element={component} />
+            ))}
+          </Route>
+        ))}
 
         {/* Ruta para páginas no encontradas */}
         <Route path="*" element={<h1>404 Not Found</h1>} />

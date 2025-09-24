@@ -2,22 +2,26 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ThemeToggle from '../components/ThemeToggle';
-import { Menu } from 'lucide-react'; // Ícono para el header móvil
+import { Menu } from 'lucide-react'; // Íconos para el header móvil
+import ScrollToTopButton from '../components/ScrollToTopButton';
+import { mainNavItems } from '@/config'; // Importamos la configuración
 
 const MainLayout = () => {
   // 1. Estado para controlar el sidebar en móvil
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-gray-100 dark:bg-black text-slate-800 dark:text-slate-200 min-h-screen">
-      
-      {/* 2. Pasamos el estado y la función para cerrarlo al Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="font-sans bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300">
+      {/* Fondo con gradiente sutil, aplicado a todo el layout */}
+      <div className="fixed inset-0 -z-10 h-full w-full bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-black"></div>
+
+      {/* 2. Pasamos el estado, la función de cierre y los items de navegación al Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} navItems={mainNavItems} />
 
       {/* Contenedor principal que se ajusta responsivamente */}
       <div className="md:ml-64">
         {/* 3. Header visible solo en móvil */}
-        <header className="md:hidden sticky top-0 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between px-4 z-20">
+        <header className="md:hidden sticky top-0 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between px-4 z-20 transition-colors duration-300">
           <button 
             onClick={() => setSidebarOpen(true)}
             className="p-2 rounded-md"
@@ -36,6 +40,7 @@ const MainLayout = () => {
           </div>
           <Outlet />
         </main>
+        <ScrollToTopButton />
       </div>
     </div>
   );

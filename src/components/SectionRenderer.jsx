@@ -1,0 +1,77 @@
+import React from 'react';
+import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
+import { HelpCircle } from 'lucide-react';
+
+import PageSection from '@/components/PageSection';
+import AnimatedSection from '@/components/AnimatedSection';
+import ContentCard from '@/components/ContentCard';
+import SectionTitle from '@/components/SectionTitle';
+import ProgramsSection from '@/components/ProgramsSection';
+import PersonalizedPlanCTA from '@/components/PersonalizedPlanCTA';
+import CardGrid from '@/components/CardGrid';
+import InstagramCard from '@/components/InstagramCard';
+import YouTubeCard from '@/components/YouTubeCard';
+import Accordion from '@/components/Accordion';
+
+import {
+  programsSectionData,
+  personalizedPlanCtaData,
+  personalizedPlanLink,
+  instagramPosts,
+  youTubeVideos,
+  faqData,
+} from '@/data';
+
+/**
+ * Componente para renderizar una sección completa de la página de Links.
+ * Abstrae la lógica de qué componente renderizar para cada tipo de sección.
+ * @param {{ section: object }} props
+ */
+const SectionRenderer = ({ section }) => {
+  const { id, type, title, icon, description, className, contentCardClassName } = section;
+
+  const renderContent = () => {
+    switch (type) {
+      case 'programs':
+        return <ProgramsSection programs={programsSectionData.content} />;
+      case 'contact':
+        // Este tipo de sección no usa ContentCard, por lo que se maneja de forma especial.
+        return <PersonalizedPlanCTA ctaData={personalizedPlanCtaData} contactLink={personalizedPlanLink} />;
+      case 'instagram':
+        return <CardGrid items={instagramPosts} renderItem={(post) => <InstagramCard post={post} />} />;
+      case 'youtube':
+        return <CardGrid items={youTubeVideos} renderItem={(video) => <YouTubeCard video={video} />} />;
+      case 'faq':
+        return <Accordion items={faqData} />;
+      default:
+        return null;
+    }
+  };
+
+  // El CTA de contacto no necesita el envoltorio de `ContentCard`.
+  if (type === 'contact') {
+    return (
+      <PageSection id={id} className={className}>
+        <AnimatedSection>
+          {renderContent()}
+        </AnimatedSection>
+      </PageSection>
+    );
+  }
+
+  return (
+    <PageSection id={id} className={className}>
+      <AnimatedSection>
+        <ContentCard className={contentCardClassName}>
+          <SectionTitle icon={icon}>{title}</SectionTitle>
+          {description && (
+            <p className="text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0">{description}</p>
+          )}
+          {renderContent()}
+        </ContentCard>
+      </AnimatedSection>
+    </PageSection>
+  );
+};
+
+export default SectionRenderer;
