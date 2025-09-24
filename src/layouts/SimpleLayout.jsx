@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { linksNavItems } from '@/config/pageSections'; // Importamos los navLinks
 import Footer from '@/components/Footer';
-import ScrollToTopButton from '@/components/ScrollToTopButton';
+import FloatingButtons from '@/components/FloatingButtons';
 
 /**
  * Layout simple que consiste en una barra de navegación superior y el contenido de la página.
@@ -30,7 +30,7 @@ const SimpleLayout = () => {
         <Outlet />
       </main>
       <Footer />
-      <ScrollToTopButton />
+      <FloatingButtons />  
     </div>
   );
 };

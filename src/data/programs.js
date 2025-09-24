@@ -1,4 +1,4 @@
-import { LayoutGrid, Layers, Dumbbell, Wind, Zap, Feather } from "lucide-react";
+import { LayoutGrid, Layers, Dumbbell, BicepsFlexed, Zap, Feather } from "lucide-react";
 import { generateWhatsAppLink } from "./contact";
 
 const rawPrograms = [
@@ -20,15 +20,15 @@ const rawPrograms = [
     title: "SPEED LAB",
     description: "ACELERACIÓN, VELOCIDAD MAXIMA, CAMBIO DE DIRECCIÓN",
     duration: "6 / 9 SEMANAS",
-    Icon: Wind,
-    gradientClasses: "from-emerald-500 to-green-400",
+    Icon: Zap,
+    gradientClasses: "from-amber-400 to-yellow-300",
   },
   {
     title: "STRENGHT & POWER IN SEASON",
     description: "FUERZA - POTENCIA - HIPERTROFIA | EN TEMPORADA",
     duration: "8 / 12 SEMANAS",
-    Icon: Zap,
-    gradientClasses: "from-amber-400 to-yellow-300",
+    Icon: BicepsFlexed,
+    gradientClasses: "from-emerald-500 to-green-400",
   },
   {
     title: "BEGINNER",

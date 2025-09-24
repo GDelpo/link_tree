@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from 'react';
+// components/ScrollToTopButton.jsx
+
+import React from 'react';
 import { ArrowUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-/**
- * Un botón flotante que aparece cuando el usuario se desplaza hacia abajo
- * y permite volver al inicio de la página con un scroll suave.
- */
-const ScrollToTopButton = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Muestra u oculta el botón basado en la posición del scroll
-  const toggleVisibility = () => {
-    if (window.scrollY > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  // Vuelve al inicio de la página con una animación suave
+const ScrollToTopButton = ({ isVisible }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -26,16 +12,12 @@ const ScrollToTopButton = () => {
     });
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && ( // Usa la prop para decidir si se muestra
         <motion.button
           onClick={scrollToTop}
+          // La clase de posicionamiento sigue igual
           className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg dark:shadow-lg dark:shadow-black/25 overflow-hidden group transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
           aria-label="Volver al inicio"
           initial={{ opacity: 0, y: 20 }}

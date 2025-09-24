@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import ThemeToggle from '../components/ThemeToggle';
+import Sidebar from '@/components/Sidebar';
+import ThemeToggle from '@/components/ThemeToggle';
 import { Menu } from 'lucide-react'; // Íconos para el header móvil
-import ScrollToTopButton from '../components/ScrollToTopButton';
+import FloatingButtons from '@/components/FloatingButtons';
 
 const MainLayout = ({ navItems }) => {
   // 1. Estado para controlar el sidebar en móvil
@@ -39,7 +39,7 @@ const MainLayout = ({ navItems }) => {
           </div>
           <Outlet />
         </main>
-        <ScrollToTopButton />
+        <FloatingButtons />>        
       </div>
     </div>
   );

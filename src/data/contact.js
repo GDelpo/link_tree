@@ -3,7 +3,7 @@ import { MessageCircle } from 'lucide-react';
 
 // Find the phone number from personalInfo, remove spaces and the '+' sign
 const phoneObject = personalInfo.find(item => item.label === 'Teléfono');
-const WHATSAPP_PHONE = phoneObject.value.replace(/\s/g, '').replace('+', '');
+export const WHATSAPP_PHONE = phoneObject.value.replace(/\s/g, '').replace('+', '');
 
 const WHATSAPP_MESSAGE_PREFIX = 'Hola! Quiero información del programa';
 
