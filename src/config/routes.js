@@ -59,7 +59,7 @@ export const routeConfig = [
     path: '/links',
     component: LinksPage,
     layout: 'simple', // Esta ruta usa un layout diferente
-    title: 'Enlaces de Interés',
+    title: 'Links',
     nav: { text: 'Links', icon: Link },
   },
 ];
