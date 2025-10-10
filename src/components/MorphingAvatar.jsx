@@ -7,9 +7,8 @@ const MorphingAvatar = ({ imageUrl }) => {
         className="
           w-full h-full
           bg-cover bg-center bg-no-repeat
-          rounded-full
           avatar-morph
-          shadow-[inset_0_0_0_9px_rgba(255,255,255,0.3)]  /* <-- AÑADIDO AQUÍ */
+          shadow-[inset_0_0_0_9px_rgba(255,255,255,0.3)]
         "
         style={{ backgroundImage: `url(${imageUrl})` }}
       />

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
 import Navbar from '@components/Navbar';
 import SkipLink from '@components/SkipLink';
 import { useActiveSection } from '@hooks/useActiveSection';
 import { linksNavItems } from '@config/pageSections'; // Importamos los navLinks
 import Footer from '@components/Footer';
 import FloatingButtons from '@components/FloatingButtons';
+import { useDocumentTitle } from '@hooks/useDocumentTitle';
+import { routeConfig } from '@config/routes';
 
 /**
  * Layout simple que consiste en una barra de navegación superior y el contenido de la página.
@@ -20,6 +22,14 @@ const SimpleLayout = () => {
 
   // Hook para detectar la sección activa en el scroll y pasarla a la Navbar.
   const activeSection = useActiveSection(navLinks.map(link => link.id));
+  
+  // Obtener la ruta actual y establecer el título dinámico
+  const location = useLocation();
+  const currentRoute = routeConfig.find(route => route.path === location.pathname);
+  const pageTitle = currentRoute?.title || 'Links';
+  
+  // Usar el hook para actualizar el título del documento
+  useDocumentTitle(pageTitle);
 
   return (
     <div className="font-sans text-slate-800 dark:text-slate-200 transition-colors duration-300">

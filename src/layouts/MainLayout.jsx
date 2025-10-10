@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '@components/Sidebar';
 import ThemeToggle from '@components/ThemeToggle';
 import SkipLink from '@components/SkipLink';
 import { Menu } from 'lucide-react'; // Íconos para el header móvil
 import FloatingButtons from '@components/FloatingButtons';
+import { useDocumentTitle } from '@hooks/useDocumentTitle';
+import { routeConfig } from '@config/routes';
 
 const MainLayout = ({ navItems }) => {
   // 1. Estado para controlar el sidebar en móvil
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  
+  // 2. Obtener la ruta actual y establecer el título dinámico
+  const location = useLocation();
+  const currentRoute = routeConfig.find(route => route.path === location.pathname);
+  const pageTitle = currentRoute?.title || 'Home';
+  
+  // 3. Usar el hook para actualizar el título del documento
+  useDocumentTitle(pageTitle);
 
   return (
     <div className="font-sans bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300">

@@ -27,6 +27,7 @@ export const routeConfig = [
     path: '/',
     component: HomePage,
     layout: 'main',
+    title: 'Home',
     nav: { text: 'Home', icon: Home },
   },
   {
@@ -34,6 +35,7 @@ export const routeConfig = [
     path: '/about',
     component: AboutPage,
     layout: 'main',
+    title: 'Sobre Mí',
     nav: { text: 'Sobre Mí', icon: User },
   },
   {
@@ -41,6 +43,7 @@ export const routeConfig = [
     path: '/redes',
     component: RedesPage,
     layout: 'main',
+    title: 'Mis Redes Sociales',
     nav: { text: 'Redes', icon: Share2 },
   },
   {
@@ -48,6 +51,7 @@ export const routeConfig = [
     path: '/faqs',
     component: FaqsPage,
     layout: 'main',
+    title: 'Preguntas Frecuentes',
     nav: { text: 'FAQS', icon: HelpCircle },
   },
   {
@@ -55,6 +59,7 @@ export const routeConfig = [
     path: '/links',
     component: LinksPage,
     layout: 'simple', // Esta ruta usa un layout diferente
+    title: 'Enlaces de Interés',
     nav: { text: 'Links', icon: Link },
   },
 ];
