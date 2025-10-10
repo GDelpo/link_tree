@@ -1,8 +1,8 @@
 import React from 'react';
-import { faqData } from '@/data';
-import Accordion from '@/components/Accordion';
-import PageHeader from '@/components/PageHeader';
-import PageContainer from '@/components/PageContainer';
+import { faqData } from '@content';
+import Accordion from '@components/Accordion';
+import PageHeader from '@components/PageHeader';
+import PageContainer from '@components/PageContainer';
 
 /** Pre-procesa los datos de las FAQ para dar estilo al texto del contenido desplegable. */
 const faqAccordionItems = faqData.map((item) => ({
@@ -23,7 +23,10 @@ const Faqs = () => {
     <>
       <PageHeader subtitle="Resolvé tus dudas" title="Preguntas Frecuentes" />
       <PageContainer>
-        <Accordion items={faqAccordionItems} />
+        <section aria-labelledby="faqs-section">
+          <h2 id="faqs-section" className="sr-only">Lista de Preguntas Frecuentes</h2>
+          <Accordion items={faqAccordionItems} />
+        </section>
       </PageContainer>
     </>
   );

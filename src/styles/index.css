@@ -23,3 +23,111 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Clase para elementos solo visibles para screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mejoras de accesibilidad para focus */
+*:focus {
+  outline-offset: 2px;
+}
+
+/* Mejorar visibilidad del focus en modo de alto contraste */
+@media (prefers-contrast: high) {
+  *:focus {
+    outline: 3px solid;
+  }
+  
+  /* Mejorar contraste en modo de alto contraste */
+  .text-sky-500 { color: #0369a1 !important; } /* sky-700 para mejor contraste */
+  .bg-sky-500 { background-color: #0284c7 !important; } /* sky-600 */
+  .hover\:bg-sky-500:hover { background-color: #0369a1 !important; } /* sky-700 */
+}
+
+/* Mejoras de contraste específicas para accesibilidad */
+.accessibility-high-contrast {
+  /* Links y elementos interactivos con mejor contraste */
+  --sky-interactive: #0369a1; /* sky-700 */
+  --sky-interactive-hover: #075985; /* sky-800 */
+}
+
+/* Media query para detección de preferencias de contraste */
+@media (prefers-contrast: more) {
+  :root {
+    --sky-interactive: #0369a1;
+    --sky-interactive-hover: #075985;
+  }
+  
+  .text-sky-500,
+  .hover\:text-sky-500:hover {
+    color: var(--sky-interactive) !important;
+  }
+  
+  .bg-sky-500,
+  .hover\:bg-sky-500:hover {
+    background-color: var(--sky-interactive) !important;
+  }
+}
+
+/* Reducir movimiento para usuarios que lo prefieren */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Estilos personalizados para scrollbars */
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.modal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Tema oscuro */
+.dark .modal-scroll {
+  scrollbar-color: #64748b #1e293b;
+}
+
+.dark .modal-scroll::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark .modal-scroll::-webkit-scrollbar-thumb {
+  background: #64748b;
+}
+
+.dark .modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}

@@ -1,5 +1,3 @@
-// components/FloatingButtons.jsx
-
 import React, { useState, useEffect } from 'react';
 import WhatsAppButton from './WhatsAppButton';
 import ScrollToTopButton from './ScrollToTopButton';

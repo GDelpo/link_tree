@@ -2,16 +2,15 @@ import React from 'react';
 import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
 import { HelpCircle } from 'lucide-react';
 
-import PageSection from '@/components/PageSection';
-import AnimatedSection from '@/components/AnimatedSection';
-import ContentCard from '@/components/ContentCard';
-import SectionTitle from '@/components/SectionTitle';
-import ProgramsSection from '@/components/ProgramsSection';
-import PersonalizedPlanCTA from '@/components/PersonalizedPlanCTA';
-import CardGrid from '@/components/CardGrid';
-import InstagramCard from '@/components/InstagramCard';
-import YouTubeCard from '@/components/YouTubeCard';
-import Accordion from '@/components/Accordion';
+import PageSection from '@components/PageSection';
+import AnimatedSection from '@components/AnimatedSection';
+import ContentCard from '@components/ContentCard';
+import SectionTitle from '@components/SectionTitle';
+import ProgramsSection from '@components/ProgramsSection';
+import PersonalizedPlanCTA from '@components/PersonalizedPlanCTA';
+import CardGrid from '@components/CardGrid';
+import MediaCard from '@components/MediaCard';
+import Accordion from '@components/Accordion';
 
 import {
   programsSectionData,
@@ -20,7 +19,7 @@ import {
   instagramPosts,
   youTubeVideos,
   faqData,
-} from '@/data';
+} from '@content';
 
 /**
  * Componente para renderizar una sección completa de la página de Links.
@@ -38,9 +37,9 @@ const SectionRenderer = ({ section }) => {
         // Este tipo de sección no usa ContentCard, por lo que se maneja de forma especial.
         return <PersonalizedPlanCTA ctaData={personalizedPlanCtaData} contactLink={personalizedPlanLink} />;
       case 'instagram':
-        return <CardGrid items={instagramPosts} renderItem={(post) => <InstagramCard post={post} />} />;
+        return <CardGrid items={instagramPosts} renderItem={(post) => <MediaCard item={post} type="instagram" />} />;
       case 'youtube':
-        return <CardGrid items={youTubeVideos} renderItem={(video) => <YouTubeCard video={video} />} />;
+        return <CardGrid items={youTubeVideos} renderItem={(video) => <MediaCard item={video} type="youtube" />} />;
       case 'faq':
         return <Accordion items={faqData} />;
       default:

@@ -1,6 +1,7 @@
 import { LayoutGrid, MessageCircle, HelpCircle } from 'lucide-react';
 import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
-import { programsSectionData } from '@/data';
+import { programsSectionData } from '@content';
+import { GLASS_CARD_CLASSES } from '@/utils/constants';
 
 /**
  * Configuración centralizada para las secciones de la página de "Links".
@@ -14,7 +15,7 @@ export const pageSectionsConfig = [
     title: programsSectionData.title,
     description: programsSectionData.description,
     icon: LayoutGrid,
-    contentCardClassName: 'bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300',
+    contentCardClassName: GLASS_CARD_CLASSES,
   },
   {
     id: 'contacto',
@@ -30,7 +31,7 @@ export const pageSectionsConfig = [
     title: 'Últimos Posts en Instagram',
     icon: SiInstagram,
     className: 'w-full overflow-x-hidden',
-    contentCardClassName: 'bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300',
+    contentCardClassName: GLASS_CARD_CLASSES,
   },
   {
     id: 'youtube',
@@ -39,7 +40,7 @@ export const pageSectionsConfig = [
     title: 'Últimos Videos en YouTube',
     icon: SiYoutube,
     className: 'w-full overflow-x-hidden',
-    contentCardClassName: 'mt-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300',
+    contentCardClassName: `mt-6 ${GLASS_CARD_CLASSES}`,
   },
   {
     id: 'faq',
@@ -47,7 +48,7 @@ export const pageSectionsConfig = [
     navText: 'Preguntas',
     title: 'Preguntas Frecuentes',
     icon: HelpCircle,
-    contentCardClassName: 'bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300',
+    contentCardClassName: GLASS_CARD_CLASSES,
   },
 ];
 

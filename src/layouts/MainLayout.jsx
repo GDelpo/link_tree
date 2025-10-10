@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '@/components/Sidebar';
-import ThemeToggle from '@/components/ThemeToggle';
+import Sidebar from '@components/Sidebar';
+import ThemeToggle from '@components/ThemeToggle';
+import SkipLink from '@components/SkipLink';
 import { Menu } from 'lucide-react'; // Íconos para el header móvil
-import FloatingButtons from '@/components/FloatingButtons';
+import FloatingButtons from '@components/FloatingButtons';
 
 const MainLayout = ({ navItems }) => {
   // 1. Estado para controlar el sidebar en móvil
@@ -11,6 +12,9 @@ const MainLayout = ({ navItems }) => {
 
   return (
     <div className="font-sans bg-slate-50 dark:bg-black text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300">
+      {/* Skip link para accesibilidad */}
+      <SkipLink />
+      
       {/* Fondo con gradiente sutil, aplicado a todo el layout */}
       <div className="fixed inset-0 -z-10 h-full w-full bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-black"></div>
 
@@ -32,14 +36,14 @@ const MainLayout = ({ navItems }) => {
         </header>
 
         {/* 4. El contenido principal ahora tiene un padding que antes estaba en <main> */}
-        <main className="p-8">
+        <main id="main-content" className="p-8" role="main" tabIndex="-1">
           {/* El ThemeToggle para desktop sigue igual, pero lo ocultamos en móvil */}
           <div className="fixed top-8 right-8 z-50 hidden md:block">
             <ThemeToggle />
           </div>
           <Outlet />
         </main>
-        <FloatingButtons />>        
+        <FloatingButtons />      
       </div>
     </div>
   );

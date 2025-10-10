@@ -1,14 +1,13 @@
 import React from 'react';
-import InstagramCard from '@/components/InstagramCard';
-import YouTubeCard from '@/components/YouTubeCard';
+import MediaCard from '@components/MediaCard';
 import { getLatestYouTubeVideos } from '@/services/youtubeService';
 import { getInstagramPosts } from '@/services/instagramService';
-import { useFetchData } from '@/hooks/useFetchData';
-import SectionTitle from '@/components/SectionTitle';
-import CardGrid from '@/components/CardGrid';
+import { useFetchData } from '@hooks/useFetchData';
+import SectionTitle from '@components/SectionTitle';
+import CardGrid from '@components/CardGrid';
 import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
-import PageHeader from '@/components/PageHeader';
-import PageContainer from '@/components/PageContainer';
+import PageHeader from '@components/PageHeader';
+import PageContainer from '@components/PageContainer';
 
 /**
  * Página "Redes" que muestra las últimas publicaciones de Instagram y YouTube.
@@ -35,7 +34,7 @@ const Redes = () => {
           {instagramLoading && <p className="text-center text-slate-600 dark:text-slate-300">Cargando posts de Instagram...</p>}
           {instagramError && <p className="text-center text-red-500">Error al cargar posts de Instagram: {instagramError.message}</p>}
           {instagramPosts && instagramPosts.length > 0 && (
-            <CardGrid items={instagramPosts} renderItem={(post) => <InstagramCard post={post} />} />
+            <CardGrid items={instagramPosts} renderItem={(post) => <MediaCard item={post} type="instagram" />} />
           )}
           {instagramPosts && instagramPosts.length === 0 && !instagramLoading && <p className="text-center text-slate-600 dark:text-slate-300">No se encontraron posts de Instagram.</p>}
         </div>
@@ -46,7 +45,7 @@ const Redes = () => {
           {youtubeLoading && <p className="text-center text-slate-600 dark:text-slate-300">Cargando videos de YouTube...</p>}
           {youtubeError && <p className="text-center text-red-500">Error al cargar videos de YouTube: {youtubeError.message}</p>}
           {youtubeVideos && youtubeVideos.length > 0 && (
-            <CardGrid items={youtubeVideos} renderItem={(video) => <YouTubeCard video={video} />} />
+            <CardGrid items={youtubeVideos} renderItem={(video) => <MediaCard item={video} type="youtube" />} />
           )}
           {youtubeVideos && youtubeVideos.length === 0 && !youtubeLoading && <p className="text-center text-slate-600 dark:text-slate-300">No se encontraron videos de YouTube.</p>}
         </div>

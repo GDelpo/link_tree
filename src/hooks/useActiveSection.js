@@ -1,27 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
- * Hook para detectar qué sección de la página está activa en el viewport.
- * @param {string[]} sectionIds - Un array con los IDs de las secciones a observar.
- * @param {string} rootMargin - El margen para el IntersectionObserver. Define cuándo se considera una sección "activa".
- *                                '-30% 0px -70% 0px' significa que se activa cuando la sección está en el 30% superior del viewport.
+ * Hook simplificado para detectar qué sección está activa en el viewport.
+ * @param {string[]} sectionIds - Array con los IDs de las secciones a observar.
+ * @param {string} rootMargin - Margen para el IntersectionObserver.
  * @returns {string | null} El ID de la sección activa.
  */
 export const useActiveSection = (sectionIds, rootMargin = '-30% 0px -70% 0px') => {
   const [activeSection, setActiveSection] = useState(null);
-  const observer = useRef(null);
 
   useEffect(() => {
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-
-    if (!sectionIds || sectionIds.length === 0) {
+    if (!sectionIds?.length) {
       setActiveSection(null);
       return;
     }
 
-    observer.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -32,20 +26,14 @@ export const useActiveSection = (sectionIds, rootMargin = '-30% 0px -70% 0px') =
       { rootMargin }
     );
 
-    const { current: currentObserver } = observer;
+    // Observar todas las secciones existentes
+    const elements = sectionIds
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    
+    elements.forEach(element => observer.observe(element));
 
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) {
-        currentObserver.observe(element);
-      }
-    });
-
-    return () => {
-      if (currentObserver) {
-        currentObserver.disconnect();
-      }
-    };
+    return () => observer.disconnect();
   }, [sectionIds, rootMargin]);
 
   return activeSection;

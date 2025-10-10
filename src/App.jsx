@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { routeConfig } from '@/config/routes';
-import { buildMainNavItems } from '@/config/navigation';
+import { routeConfig, buildMainNavItems } from '@config';
 
 // Layouts
-import MainLayout from '@/layouts/MainLayout';
-import SimpleLayout from '@/layouts/SimpleLayout';
+import MainLayout from '@layouts/MainLayout';
+import SimpleLayout from '@layouts/SimpleLayout';
+
+// Loading components
+import PageLoadingFallback from '@components/PageLoadingFallback';
+import LazyErrorBoundary from '@components/LazyErrorBoundary';
 
 // Mapeo de strings → layouts reales
 const layoutMap = {
@@ -15,29 +18,49 @@ const layoutMap = {
 
 function App() {
   const mainNavItems = buildMainNavItems(routeConfig);
+  
+  // Separar rutas por layout para mayor claridad
+  const mainRoutes = routeConfig.filter(route => route.layout === 'main');
+  const simpleRoutes = routeConfig.filter(route => route.layout === 'simple');
 
   return (
     <BrowserRouter>
       <Routes>
-        {Object.entries(
-          routeConfig.reduce((acc, route) => {
-            const { layout } = route;
-            if (!acc[layout]) acc[layout] = [];
-            acc[layout].push(route);
-            return acc;
-          }, {})
-        ).map(([layoutKey, routes]) => {
-          const Layout = layoutMap[layoutKey];
-          return (
-            <Route key={layoutKey} element={<Layout navItems={mainNavItems} />}>
-              {routes.map(({ path, component: Component }) => (
-                <Route key={path} path={path} element={<Component />} />
-              ))}
-            </Route>
-          );
-        })}
+        {/* Rutas con MainLayout */}
+        <Route element={<MainLayout navItems={mainNavItems} />}>
+          {mainRoutes.map(({ path, component: Component, id }) => (
+            <Route 
+              key={path} 
+              path={path} 
+              element={
+                <LazyErrorBoundary>
+                  <Suspense fallback={<PageLoadingFallback pageName={id} />}>
+                    <Component />
+                  </Suspense>
+                </LazyErrorBoundary>
+              } 
+            />
+          ))}
+        </Route>
 
-        {/* Ruta para páginas no encontradas */}
+        {/* Rutas con SimpleLayout */}
+        <Route element={<SimpleLayout navItems={mainNavItems} />}>
+          {simpleRoutes.map(({ path, component: Component, id }) => (
+            <Route 
+              key={path} 
+              path={path} 
+              element={
+                <LazyErrorBoundary>
+                  <Suspense fallback={<PageLoadingFallback pageName={id} />}>
+                    <Component />
+                  </Suspense>
+                </LazyErrorBoundary>
+              } 
+            />
+          ))}
+        </Route>
+
+        {/* Página 404 */}
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </BrowserRouter>

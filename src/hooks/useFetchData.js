@@ -1,17 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
- * Hook genérico para la obtención de datos de una API.
- * @param {Function} fetcherFunction - Una función asíncrona que realiza la llamada a la API y devuelve los datos.
- * @param {Array<any>} dependencies - Dependencias para re-ejecutar la función fetcher (similar a useEffect).
+ * Hook simplificado para obtener datos de una API.
+ * @param {Function} fetcherFunction - Función asíncrona que realiza la llamada a la API.
  * @returns {{ data: any, loading: boolean, error: Error | null, refetch: Function }}
  */
-export function useFetchData(fetcherFunction, dependencies = []) {
+export function useFetchData(fetcherFunction) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -22,11 +21,11 @@ export function useFetchData(fetcherFunction, dependencies = []) {
     } finally {
       setLoading(false);
     }
-  }, [fetcherFunction, ...dependencies]); // Incluye dependencias aquí para useCallback
+  };
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]); // fetchData en sí mismo está memoizado por useCallback
+  }, []); // Solo ejecuta una vez al montar
 
   return { data, loading, error, refetch: fetchData };
 }

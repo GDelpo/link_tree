@@ -2,7 +2,7 @@ import React from 'react';
 
 const MorphingAvatar = ({ imageUrl }) => {
   return (
-    <div className="relative w-full h-full p-1 rounded-full bg-gradient-to-br from-sky-500 to-slate-700 shadow-lg shadow-sky-500/10">
+    <div className="relative w-full h-full p-1 rounded-full bg-gradient-to-br from-sky-600 to-slate-700 shadow-lg shadow-sky-600/10">
       <div
         className="
           w-full h-full

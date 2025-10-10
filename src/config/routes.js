@@ -1,11 +1,14 @@
 import { Home, User, Share2, HelpCircle, Link } from 'lucide-react';
+import { lazy } from 'react';
 
-// Pages
-import HomePage from '@/pages/Home';
-import AboutPage from '@/pages/About';
-import FaqsPage from '@/pages/Faqs';
-import LinksPage from '@/pages/Links';
-import RedesPage from '@/pages/Redes';
+// Páginas con lazy loading (las más pesadas)
+const AboutPage = lazy(() => import('@pages/About'));
+const FaqsPage = lazy(() => import('@pages/Faqs'));
+const LinksPage = lazy(() => import('@pages/Links'));
+const RedesPage = lazy(() => import('@pages/Redes'));
+
+// Página Home sin lazy loading (es simple y se necesita inmediatamente)
+import HomePage from '@pages/Home';
 
 /**
  * Configuración central de rutas de la aplicación.

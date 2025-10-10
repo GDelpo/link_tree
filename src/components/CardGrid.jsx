@@ -28,19 +28,30 @@ const itemVariants = {
  * Componente genérico para renderizar una grilla de elementos.
  * Utiliza el patrón "render prop" para desacoplar la lógica de la grilla
  * de la lógica de renderizado de cada item individual.
- * Ahora incluye animaciones de entrada con Framer Motion.
- * @param {{ items: Array<{id: string | number}>, renderItem: (item: any) => React.ReactElement }} props
+ * Ahora incluye animaciones de entrada con Framer Motion y mejoras de accesibilidad.
+ * @param {{ items: Array<{id: string | number}>, renderItem: (item: any) => React.ReactElement, ariaLabel?: string }} props
  */
-const CardGrid = memo(({ items, renderItem }) => (
+const CardGrid = memo(({ items, renderItem, ariaLabel = "Grilla de elementos" }) => (
   <motion.div
+    role="grid"
+    aria-label={ariaLabel}
+    aria-rowcount={Math.ceil(items.length / 3)}
     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6"
     variants={containerVariants}
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true, amount: 0.1 }}
+    // Reduce animaciones si el usuario prefiere movimiento reducido
+    data-reduce-motion="false"
   >
-    {items.map((item) => (
-      <motion.div key={item.id} variants={itemVariants}>
+    {items.map((item, index) => (
+      <motion.div 
+        key={item.id} 
+        variants={itemVariants}
+        role="gridcell"
+        aria-colindex={(index % 3) + 1}
+        aria-rowindex={Math.floor(index / 3) + 1}
+      >
         {renderItem(item)}
       </motion.div>
     ))}

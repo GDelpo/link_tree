@@ -1,10 +1,11 @@
 import React from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
-import { useActiveSection } from '@/hooks/useActiveSection';
-import { linksNavItems } from '@/config/pageSections'; // Importamos los navLinks
-import Footer from '@/components/Footer';
-import FloatingButtons from '@/components/FloatingButtons';
+import Navbar from '@components/Navbar';
+import SkipLink from '@components/SkipLink';
+import { useActiveSection } from '@hooks/useActiveSection';
+import { linksNavItems } from '@config/pageSections'; // Importamos los navLinks
+import Footer from '@components/Footer';
+import FloatingButtons from '@components/FloatingButtons';
 
 /**
  * Layout simple que consiste en una barra de navegación superior y el contenido de la página.
@@ -22,10 +23,11 @@ const SimpleLayout = () => {
 
   return (
     <div className="font-sans text-slate-800 dark:text-slate-200 transition-colors duration-300">
+      <SkipLink />
       {/* Fondo con gradiente sutil, consistente con MainLayout */}
       <div className="fixed inset-0 -z-10 h-full w-full bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-black transition-colors duration-300"></div>
       <Navbar navLinks={navLinks} activeSection={activeSection} />
-      <main className="w-full max-w-4xl px-4 pt-16 mx-auto sm:px-6 lg:px-8">
+      <main id="main-content" role="main" tabIndex="-1" className="w-full max-w-4xl px-4 pt-16 mx-auto sm:px-6 lg:px-8">
         {/* El Outlet ahora recibe el contexto de la ruta */}
         <Outlet />
       </main>
