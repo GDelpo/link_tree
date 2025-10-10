@@ -70,12 +70,12 @@ const ProgramCard = ({
           style={{ backgroundSize: "200% 200%" }}
           aria-hidden="true"
         ></span>
-        <span className="relative z-10">{ctaText}</span>
         {detailedInfo ? (
           <Info className="w-4 h-4 relative z-10" aria-hidden="true" />
         ) : (
           <ArrowRight className="w-4 h-4 relative z-10" aria-hidden="true" />
         )}
+        <span className="relative z-10">{ctaText}</span>
       </button>
       
     </article>

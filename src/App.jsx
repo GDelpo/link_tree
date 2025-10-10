@@ -10,6 +10,12 @@ import SimpleLayout from '@layouts/SimpleLayout';
 import PageLoadingFallback from '@components/PageLoadingFallback';
 import LazyErrorBoundary from '@components/LazyErrorBoundary';
 
+// Contexts
+import { LocationProvider } from './contexts/LocationContext.jsx';
+
+// Development components
+import GeolocationDebugger from './components/GeolocationDebugger.jsx';
+
 // Mapeo de strings → layouts reales
 const layoutMap = {
   main: MainLayout,
@@ -24,8 +30,9 @@ function App() {
   const simpleRoutes = routeConfig.filter(route => route.layout === 'simple');
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <LocationProvider>
+      <BrowserRouter>
+        <Routes>
         {/* Rutas con MainLayout */}
         <Route element={<MainLayout navItems={mainNavItems} />}>
           {mainRoutes.map(({ path, component: Component, id }) => (
@@ -62,8 +69,12 @@ function App() {
 
         {/* Página 404 */}
         <Route path="*" element={<h1>404 Not Found</h1>} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+      
+      {/* Development tools */}
+      <GeolocationDebugger />
+    </LocationProvider>
   );
 }
 

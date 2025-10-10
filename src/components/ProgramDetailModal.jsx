@@ -1,107 +1,26 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Clock, Users, Smartphone, Dumbbell, Star, CreditCard, ExternalLink } from 'lucide-react';
+import { X, Clock, Users, Smartphone, Dumbbell, Star, CreditCard, ExternalLink, MapPin } from 'lucide-react';
 import { useKeyboardNavigation, useFocusManagement } from '@hooks/useAccessibility';
-import { programsData } from '../content/programs.js';
+import { programsData, getSmartPrice, getSmartPriceDisplay } from '../content/programs.js';
 import { generateWhatsAppLink } from '../content/contact.js';
+import { useLocationContext, LocationIndicator } from '../contexts/LocationContext.jsx';
+import { SmartPricingSection } from './SmartPricing.jsx';
+import { SmartPaymentSection } from './SmartPayment.jsx';
 import Portal from './Portal';
 
-// Helper function para renderizar detalles de precios según estructura
-const renderPricingDetails = (program) => {
-  const { price } = program;
-  
-  if (!price) return <p className="text-slate-600 dark:text-slate-400">Consultar precio</p>;
-  
-  // Estructura simple: { local: "...", international: "..." }
-  if (price.local && price.international) {
-    return (
-      <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
-        <div className="grid grid-cols-2 gap-4 text-center">
-          <div>
-            <div className="text-2xl font-bold text-slate-800 dark:text-white">{price.local}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Argentina</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-800 dark:text-white">{price.international}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Internacional</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  
-  // Estructura compleja con múltiples opciones
-  const priceKeys = Object.keys(price);
-  if (priceKeys.length > 0) {
-    return (
-      <div className="space-y-3">
-        {priceKeys.map((key, index) => {
-          const priceOption = price[key];
-          const duration = key.replace('weeks', ' semanas');
-          
-          return (
-            <div key={key} className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-slate-800 dark:text-white capitalize">
-                  {duration === 'regular' ? 'Precio Regular' : 
-                   duration === 'launch' ? 'Precio Lanzamiento' : 
-                   `Programa ${duration}`}
-                </h4>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 text-center">
-                {priceOption.local && (
-                  <div>
-                    <div className="text-xl font-bold text-slate-800 dark:text-white">{priceOption.local}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400">Argentina</div>
-                  </div>
-                )}
-                {priceOption.international && (
-                  <div className={priceOption.local ? '' : 'col-span-2'}>
-                    <div className="text-xl font-bold text-slate-800 dark:text-white">{priceOption.international}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-400">Internacional</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-  
-  return <p className="text-slate-600 dark:text-slate-400">Consultar precio</p>;
-};
+
 
 const ProgramDetailModal = ({ program, isOpen, onClose }) => {
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const { trapFocus, restoreFocus } = useFocusManagement();
+  const { isArgentina, isLoading: locationLoading, country } = useLocationContext();
   
-  // Helper function para obtener el precio principal a mostrar
+  // Helper function para obtener el precio principal a mostrar (ahora inteligente)
   const getPrimaryPrice = (priceStructure) => {
-    if (!priceStructure) return "Consultar";
-    
-    // Si tiene estructura simple (local/international)
-    if (priceStructure.local && priceStructure.international) {
-      return `${priceStructure.local} / ${priceStructure.international}`;
-    }
-    
-    // Si tiene estructura compleja con múltiples duraciones
-    const keys = Object.keys(priceStructure);
-    if (keys.length === 0) return "Consultar";
-    
-    // Tomar el primer precio disponible
-    const firstKey = keys[0];
-    const firstPrice = priceStructure[firstKey];
-    
-    if (firstPrice.local && firstPrice.international) {
-      return `${firstPrice.local} / ${firstPrice.international}`;
-    } else if (firstPrice.international) {
-      return firstPrice.international;
-    }
-    
-    return "Consultar";
+    if (locationLoading) return "Detectando precio...";
+    return getSmartPriceDisplay(priceStructure, isArgentina);
   };
   
   // Keyboard navigation para cerrar con Escape
@@ -329,22 +248,13 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
                   </section>
                 )}
 
-                {/* Pricing Details */}
+                {/* Smart Pricing Section */}
                 <section aria-labelledby="pricing-heading">
-                  <h3 id="pricing-heading" className="text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                  <h3 id="pricing-heading" className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                     <CreditCard className="w-5 h-5 text-emerald-600" />
                     Precios y Opciones
                   </h3>
-                  {renderPricingDetails(program)}
-                  
-                  {/* Special offers */}
-                  {program.specialOffer && (
-                    <div className="mt-4 p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg border-l-4 border-orange-500">
-                      <p className="text-orange-800 dark:text-orange-200 font-semibold text-sm">
-                        🔥 {program.specialOffer}
-                      </p>
-                    </div>
-                  )}
+                  <SmartPricingSection program={program} />
                   
                   {program.specialNote && (
                     <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border-l-4 border-blue-500">
@@ -355,71 +265,18 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
                   )}
                 </section>
 
-                {/* Payment Methods */}
+                {/* Smart Payment & Contact Section */}
                 <section aria-labelledby="payment-heading">
-                  <h3 id="payment-heading" className="text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                  <h3 id="payment-heading" className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                     <CreditCard className="w-5 h-5 text-sky-600" />
-                    Medios de Pago
+                    Pago y Contacto
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">Argentina</h4>
-                      <ul className="space-y-1">
-                        {program.paymentMethods.local.map((method, index) => (
-                          <li key={index} className="text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 bg-green-600 rounded-full" />
-                            {method}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">Internacional</h4>
-                      <ul className="space-y-1">
-                        {program.paymentMethods.international.map((method, index) => (
-                          <li key={index} className="text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
-                            {method}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  <SmartPaymentSection program={program} />
                 </section>
               </div>
             </div>
 
-            {/* Footer with CTA - Fijo */}
-            <div className="flex-shrink-0 p-6 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shadow-lg shadow-slate-900/10 dark:shadow-black/30">
-              <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center">
-                <div>
-                  <p className="font-semibold text-slate-800 dark:text-white">
-                    ¿Listo para comenzar?
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Consultá cualquier duda o comenzá tu transformación ahora
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={onClose}
-                    className="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 rounded-lg"
-                  >
-                    Cerrar
-                  </button>
-                  <a
-                    href={generateWhatsAppLink(program.title)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r ${program.gradientClasses} text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-offset-slate-900`}
-                    aria-label={`Consultar sobre ${program.title} por WhatsApp (se abre en una nueva ventana)`}
-                  >
-                    Consultar
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-            </div>
+
           </motion.div>
         </div>
       )}
