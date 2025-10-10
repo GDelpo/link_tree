@@ -13,11 +13,11 @@ const YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 export async function getLatestYouTubeVideos(maxResults = 5) {
   if (!YOUTUBE_API_KEY) {
     console.error("YOUTUBE_API_KEY no está configurada en las variables de entorno.");
-    throw new Error("YouTube API Key is missing.");
+    throw new Error("Falta la clave de API de YouTube.");
   }
   if (!YOUTUBE_CHANNEL_ID) {
     console.error("YOUTUBE_CHANNEL_ID no está configurada en las variables de entorno.");
-    throw new Error("YouTube Channel ID is missing.");
+    throw new Error("Falta el ID del canal de YouTube.");
   }
 
   const url = new URL(`${YOUTUBE_BASE_URL}/search`);

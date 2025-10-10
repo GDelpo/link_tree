@@ -15,7 +15,7 @@ class LazyErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Lazy loading error:', error, errorInfo);
+    console.error('Error de carga lazy:', error, errorInfo);
   }
 
   handleRetry = () => {

@@ -43,7 +43,7 @@ const RelevantPaymentMethods = ({ program }) => {
   return (
     <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
       <h4 className="font-semibold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
-        <CreditCard className="w-4 h-4 text-blue-600" />
+        <CreditCard className="w-4 h-4 text-blue-600 dark:text-blue-400" />
         Métodos de pago disponibles {isArgentina ? 'en Argentina' : 'internacionales'}
       </h4>
       
@@ -56,19 +56,12 @@ const RelevantPaymentMethods = ({ program }) => {
       {/* Información adicional por región */}
       <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
         <div className="flex items-start gap-2">
-          <Shield className="w-4 h-4 text-blue-600 mt-0.5" />
+          <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5" />
           <div className="text-sm text-blue-800 dark:text-blue-200">
-            {isArgentina ? (
-              <>
-                <strong>Pago seguro:</strong> Transferencias bancarias directas. 
-                Te enviaremos los datos una vez que confirmes tu interés.
-              </>
-            ) : (
-              <>
-                <strong>Secure payment:</strong> International payments through PayPal. 
-                Safe and reliable worldwide processing.
-              </>
-            )}
+            <strong>Pago seguro:</strong> {isArgentina 
+              ? 'Transferencias bancarias directas. Te enviaremos los datos una vez que confirmes tu interés.'
+              : 'Pagos internacionales a través de PayPal. Procesamiento seguro y confiable en todo el mundo.'
+            }
           </div>
         </div>
       </div>
@@ -104,7 +97,7 @@ const DeliveryInfo = ({ program }) => {
   return (
     <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4">
       <h4 className="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center gap-2">
-        <Smartphone className="w-4 h-4" />
+        <Smartphone className="w-4 h-4 text-green-600 dark:text-green-400" />
         Acceso al programa
       </h4>
       
@@ -114,29 +107,23 @@ const DeliveryInfo = ({ program }) => {
           title="Confirmación de pago"
           description={isArgentina 
             ? "Realizás la transferencia y nos enviás el comprobante"
-            : "Complete your PayPal payment securely"
+            : "Completás tu pago PayPal de forma segura"
           }
-          icon={<CreditCard className="w-4 h-4" />}
+          icon={<CreditCard className="w-4 h-4 text-green-600 dark:text-green-400" />}
         />
         
         <AccessStep 
           step="2"
           title="Acceso inmediato"
-          description={isArgentina
-            ? "Te enviamos el acceso a la app móvil dentro de las 24hs"
-            : "Receive app access within 24 hours via email"
-          }
-          icon={<Smartphone className="w-4 h-4" />}
+          description="Te enviamos el acceso a la app móvil dentro de las 24hs por email"
+          icon={<Smartphone className="w-4 h-4 text-green-600 dark:text-green-400" />}
         />
         
         <AccessStep 
           step="3"
           title="Soporte continuo"
-          description={isArgentina
-            ? "Seguimiento personalizado durante todo el programa"
-            : "Personal coaching support throughout the program"
-          }
-          icon={<MessageCircle className="w-4 h-4" />}
+          description="Seguimiento personalizado durante todo el programa"
+          icon={<MessageCircle className="w-4 h-4 text-green-600 dark:text-green-400" />}
         />
       </div>
     </div>
@@ -176,7 +163,7 @@ const ContactButtons = ({ program }) => {
     if (isArgentina) {
       return `${baseMessage}. ¿Podrías contarme más detalles sobre el programa y cómo realizar el pago en Argentina?`;
     } else {
-      return `${baseMessage}. Could you tell me more about the program and international payment options? I'm writing from ${country || 'outside Argentina'}.`;
+      return `${baseMessage}. ¿Podrías contarme más detalles sobre el programa y las opciones de pago internacional? Te escribo desde ${country || 'fuera de Argentina'}.`;
     }
   };
   
@@ -186,13 +173,10 @@ const ContactButtons = ({ program }) => {
     <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4">
       <div className="text-center text-white mb-4">
         <h4 className="font-bold mb-1">
-          {isArgentina ? '¿Listo para empezar?' : 'Ready to start?'}
+          ¿Listo para empezar?
         </h4>
         <p className="text-green-100 text-sm">
-          {isArgentina 
-            ? 'Contactanos para más información y comenzar tu transformación'
-            : 'Contact us for more info and start your transformation'
-          }
+          Contactanos para más información y comenzar tu transformación
         </p>
       </div>
       
@@ -204,15 +188,12 @@ const ContactButtons = ({ program }) => {
           className="w-full bg-white text-green-600 hover:bg-green-50 font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
         >
           <MessageCircle className="w-5 h-5" />
-          {isArgentina ? 'Consultar por WhatsApp' : 'Ask via WhatsApp'}
+          Consultar por WhatsApp
         </a>
         
         <div className="text-center">
           <p className="text-green-100 text-xs">
-            {isArgentina 
-              ? '✓ Respuesta garantizada en menos de 2 horas'
-              : '✓ Guaranteed response within 2 hours'
-            }
+            ✓ Respuesta garantizada en menos de 2 horas
           </p>
         </div>
       </div>

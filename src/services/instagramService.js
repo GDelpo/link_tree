@@ -14,11 +14,11 @@ const INSTAGRAM_GRAPH_API_BASE_URL = 'https://graph.facebook.com/v18.0'; // Usa 
 export async function getInstagramPosts(limit = 5) {
   if (!INSTAGRAM_ACCESS_TOKEN) {
     console.error("INSTAGRAM_ACCESS_TOKEN no está configurada en las variables de entorno.");
-    throw new Error("Instagram Access Token is missing.");
+    throw new Error("Falta el token de acceso de Instagram.");
   }
   if (!INSTAGRAM_USER_ID) {
     console.error("INSTAGRAM_USER_ID no está configurada en las variables de entorno.");
-    throw new Error("Instagram User ID is missing.");
+    throw new Error("Falta el ID de usuario de Instagram.");
   }
 
   // Campos a recuperar para cada elemento multimedia. Ajusta según tus necesidades.

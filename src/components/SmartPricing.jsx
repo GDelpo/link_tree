@@ -159,11 +159,11 @@ const PersonalizedPriceCard = ({ program, selectedDuration, onDurationChange }) 
         {/* Beneficios incluidos - simplificado */}
         <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/20">
           <div className="flex items-center gap-1.5">
-            <Check className="w-4 h-4" />
+            <Check className="w-4 h-4 text-white" />
             <span className="text-xs">Seguimiento personalizado</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Check className="w-4 h-4" />
+            <Check className="w-4 h-4 text-white" />
             <span className="text-xs">Acceso móvil</span>
           </div>
         </div>
