@@ -108,23 +108,21 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
               aria-labelledby="modal-title"
               aria-describedby="modal-description"
             >
-            {/* Header - Fijo */}
-            <div className={`flex-shrink-0 p-6 bg-gradient-to-r ${program.gradientClasses} text-white relative overflow-hidden`}>
+            {/* Header - Más compacto */}
+            <div className={`flex-shrink-0 p-4 bg-gradient-to-r ${program.gradientClasses} text-white relative overflow-hidden`}>
               <div className="relative z-10">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
+                {/* Primera fila: Título y botón de cerrar */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
                     {program.Icon && (
-                      <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-                        <program.Icon className="w-8 h-8" />
+                      <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                        <program.Icon className="w-6 h-6" />
                       </div>
                     )}
                     <div>
-                      <h2 id="modal-title" className="text-3xl font-bold mb-2">
+                      <h2 id="modal-title" className="text-xl font-bold">
                         {program.emoji} {program.title}
                       </h2>
-                      <p className="text-white/90 text-lg font-medium">
-                        {program.shortDescription}
-                      </p>
                     </div>
                   </div>
                   <button
@@ -133,23 +131,28 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
                     className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent"
                     aria-label="Cerrar información del programa"
                   >
-                    <X className="w-6 h-6" />
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
                 
-                {/* Quick stats */}
-                <div className="flex flex-wrap gap-4 mt-6">
-                  <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <Clock className="w-5 h-5" />
-                    <span className="font-medium">{program.duration}</span>
+                {/* Segunda fila: Descripción corta */}
+                <p className="text-white/90 text-sm font-medium mb-3">
+                  {program.shortDescription}
+                </p>
+                
+                {/* Tercera fila: Stats compactos en una sola línea */}
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <div className="flex items-center gap-1 bg-white/20 rounded px-2 py-1 backdrop-blur-sm">
+                    <Clock className="w-3 h-3" />
+                    <span>{program.duration}</span>
                   </div>
-                  <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <Users className="w-5 h-5" />
-                    <span className="font-medium">{program.frequency}</span>
+                  <div className="flex items-center gap-1 bg-white/20 rounded px-2 py-1 backdrop-blur-sm">
+                    <Users className="w-3 h-3" />
+                    <span>{program.frequency}</span>
                   </div>
-                  <div className="flex items-center gap-2 bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <CreditCard className="w-5 h-5" />
-                    <span className="font-medium">{getPrimaryPrice(program.price)}</span>
+                  <div className="flex items-center gap-1 bg-white/20 rounded px-2 py-1 backdrop-blur-sm">
+                    <CreditCard className="w-3 h-3" />
+                    <span>{getPrimaryPrice(program.price)}</span>
                   </div>
                 </div>
               </div>
