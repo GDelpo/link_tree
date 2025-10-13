@@ -48,8 +48,8 @@ export const routeConfig = [
     nav: { text: 'Redes', icon: Share2 },
   },
   {
-    id: 'programs',
-    path: '/programs',
+    id: 'programas',
+    path: '/programas',
     component: ProgramsPage,
     layout: 'main',
     title: 'Programas',
