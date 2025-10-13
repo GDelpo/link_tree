@@ -3,6 +3,8 @@ import { faqData } from '@content';
 import Accordion from '@components/Accordion';
 import PageHeader from '@components/PageHeader';
 import PageContainer from '@components/PageContainer';
+import SectionTitle from '@components/SectionTitle';
+import { HelpCircle } from 'lucide-react';
 
 /** Pre-procesa los datos de las FAQ para dar estilo al texto del contenido desplegable. */
 const faqAccordionItems = faqData.map((item) => ({
@@ -23,10 +25,12 @@ const Faqs = () => {
     <>
       <PageHeader subtitle="Resolvé tus dudas" title="Preguntas Frecuentes" />
       <PageContainer>
-        <section aria-labelledby="faqs-section">
-          <h2 id="faqs-section" className="sr-only">Lista de Preguntas Frecuentes</h2>
+        {/* --- SECCIÓN DE FAQ --- */}
+        <div id="faqs">
+          <SectionTitle icon={HelpCircle}>{'Preguntas Frecuentes'}</SectionTitle>
+          <p className="text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0">Encontrá respuestas a las dudas más comunes sobre mis servicios y metodología.</p>
           <Accordion items={faqAccordionItems} />
-        </section>
+        </div>
       </PageContainer>
     </>
   );
