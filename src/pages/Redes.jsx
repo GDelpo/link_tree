@@ -2,6 +2,8 @@ import React from 'react';
 import PageHeader from '@components/PageHeader';
 import PageContainer from '@components/PageContainer';
 import InstagramSection from '@components/InstagramSection';
+import SectionTitle from '@components/SectionTitle';
+import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
 
 const Redes = () => {
   return (
@@ -10,6 +12,8 @@ const Redes = () => {
       <PageContainer>
         {/* --- SECCIÓN DE INSTAGRAM --- */}
         <div id="instagram">
+          <SectionTitle icon={SiInstagram}>{'Últimos Posts en Instagram'}</SectionTitle>
+            <p className="text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0">Explorá mis publicaciones recientes en Instagram. Para ver más contenido, visitá mi perfil.</p>
           <InstagramSection limit={6} />
         </div>
       </PageContainer>
