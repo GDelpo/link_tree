@@ -24,15 +24,16 @@ export const pageSectionsConfig = [
     icon: MessageCircle,
     // Esta sección no usa ContentCard, por lo que no necesita título ni descripción aquí.
   },
-  // {
-  //   id: 'instagram',
-  //   type: 'instagram',
-  //   navText: 'Instagram',
-  //   title: 'Últimos Posts en Instagram',
-  //   icon: SiInstagram,
-  //   className: 'w-full overflow-x-hidden',
-  //   contentCardClassName: GLASS_CARD_CLASSES,
-  // },
+  {
+    id: 'instagram',
+    type: 'instagram',
+    navText: 'Instagram',
+    title: 'Últimos Posts en Instagram',
+    description: 'Explorá mis publicaciones recientes en Instagram. Para ver más contenido, visitá mi perfil.', 
+    icon: SiInstagram,
+    className: 'w-full overflow-x-hidden',
+    contentCardClassName: GLASS_CARD_CLASSES,
+  },
   // {
   //   id: 'youtube',
   //   type: 'youtube',

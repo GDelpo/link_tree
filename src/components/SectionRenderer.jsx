@@ -1,5 +1,4 @@
 import React from 'react';
-import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
 import { HelpCircle } from 'lucide-react';
 
 import PageSection from '@components/PageSection';
@@ -11,12 +10,12 @@ import PersonalizedPlanCTA from '@components/PersonalizedPlanCTA';
 import CardGrid from '@components/CardGrid';
 import MediaCard from '@components/MediaCard';
 import Accordion from '@components/Accordion';
+import InstagramSection from '@components/InstagramSection';
 
 import {
   programsSectionData,
   personalizedPlanCtaData,
   personalizedPlanLink,
-  instagramPosts,
   youTubeVideos,
   faqData,
 } from '@content';
@@ -34,10 +33,9 @@ const SectionRenderer = ({ section }) => {
       case 'programs':
         return <ProgramsSection programs={programsSectionData.content} />;
       case 'contact':
-        // Este tipo de sección no usa ContentCard, por lo que se maneja de forma especial.
         return <PersonalizedPlanCTA ctaData={personalizedPlanCtaData} contactLink={personalizedPlanLink} />;
       case 'instagram':
-        return <CardGrid items={instagramPosts} renderItem={(post) => <MediaCard item={post} type="instagram" />} />;
+        return <InstagramSection limit={3} />;
       case 'youtube':
         return <CardGrid items={youTubeVideos} renderItem={(video) => <MediaCard item={video} type="youtube" />} />;
       case 'faq':

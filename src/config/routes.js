@@ -6,6 +6,7 @@ const AboutPage = lazy(() => import('@pages/About'));
 const FaqsPage = lazy(() => import('@pages/Faqs'));
 const LinksPage = lazy(() => import('@pages/Links'));
 const RedesPage = lazy(() => import('@pages/Redes'));
+const ProgramsPage = lazy(() => import('@pages/Programs'));
 
 // Página Home sin lazy loading (es simple y se necesita inmediatamente)
 import HomePage from '@pages/Home';
@@ -38,14 +39,22 @@ export const routeConfig = [
   //   title: 'Sobre Mí',
   //   nav: { text: 'Sobre Mí', icon: User },
   // },
-  // {
-  //   id: 'redes',
-  //   path: '/redes',
-  //   component: RedesPage,
-  //   layout: 'main',
-  //   title: 'Mis Redes Sociales',
-  //   nav: { text: 'Redes', icon: Share2 },
-  // },
+  {
+    id: 'redes',
+    path: '/redes',
+    component: RedesPage,
+    layout: 'main',
+    title: 'Mis Redes Sociales',
+    nav: { text: 'Redes', icon: Share2 },
+  },
+  {
+    id: 'programs',
+    path: '/programs',
+    component: ProgramsPage,
+    layout: 'main',
+    title: 'Programas',
+    nav: { text: 'Programas', icon: User },
+  },
   {
     id: 'faqs',
     path: '/faqs',

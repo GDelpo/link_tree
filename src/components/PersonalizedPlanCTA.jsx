@@ -1,11 +1,11 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
-const PersonalizedPlanCTA = ({ ctaData, contactLink }) => {
+const PersonalizedPlanCTA = ({ ctaData, contactLink, className = ''}) => {
   const { icon: Icon, title, description, buttonText } = ctaData;
 
   return (
-    <div className="relative w-full rounded-xl shadow-lg shadow-sky-900/10 dark:shadow-2xl dark:shadow-sky-800/20 p-6 text-center overflow-hidden">
+    <div className={`relative w-full rounded-xl shadow-lg shadow-sky-900/10 dark:shadow-2xl dark:shadow-sky-800/20 p-6 text-center overflow-hidden ${className}`}>
       {/* Fondo con gradiente animado + overlay */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-400 to-sky-600 dark:from-sky-700 dark:to-sky-900 animate-[gradient-x_5s_ease_infinite]" />

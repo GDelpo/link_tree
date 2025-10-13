@@ -36,7 +36,7 @@ const CardGrid = memo(({ items, renderItem, ariaLabel = "Grilla de elementos" })
     role="grid"
     aria-label={ariaLabel}
     aria-rowcount={Math.ceil(items.length / 3)}
-    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6"
+    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-4"
     variants={containerVariants}
     initial="hidden"
     whileInView="visible"
