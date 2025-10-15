@@ -1,9 +1,9 @@
 import React from 'react';
-import ProgramsSection from '@components/ProgramsSection';
-import PageHeader from '@components/PageHeader';
-import PageContainer from '@components/PageContainer';
-import PersonalizedPlanCTA from '@components/PersonalizedPlanCTA';
-import SectionTitle from '@components/SectionTitle';
+import ProgramsSection from '@components/data/ProgramsSection';
+import PageHeader from '@components/layout/PageHeader';
+import PageContainer from '@components/layout/PageContainer';
+import PersonalizedPlanCTA from '@components/data/PersonalizedPlanCTA';
+import SectionTitle from '@components/ui/SectionTitle';
 import { LayoutGrid} from 'lucide-react';
 import {programsSectionData, personalizedPlanCtaData, personalizedPlanLink} from '@content';
 

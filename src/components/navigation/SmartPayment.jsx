@@ -1,7 +1,7 @@
 import React from 'react';
 import { MessageCircle, CreditCard, Clock, Smartphone, Shield, Truck } from 'lucide-react';
-import { useLocationContext } from '../contexts/LocationContext.jsx';
-import { generateWhatsAppLink } from '../content/contact.js';
+import { useLocationContext } from '@contexts/LocationContext.jsx';
+import { generateWhatsAppLink } from '@content/contact.js';
 
 // 💳 Componente inteligente para métodos de pago y contacto
 export const SmartPaymentSection = ({ program }) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { RefreshCw, MapPin, Globe } from 'lucide-react';
-import { useLocationContext } from '../contexts/LocationContext.jsx';
+import { useLocationContext } from '@contexts/LocationContext.jsx';
 
 // 🛠️ Componente de desarrollo para testear geolocalización
 const GeolocationDebugger = ({ className = '' }) => {

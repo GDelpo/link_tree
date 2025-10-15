@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SiWhatsapp } from '@icons-pack/react-simple-icons';
 import { WHATSAPP_PHONE } from '@content/contact';
-import FloatingActionButton from './FloatingActionButton';
+import FloatingActionButton from '@components/ui/FloatingActionButton';
 import { EMERALD_GRADIENT_CLASSES } from '@/utils/constants';
 
 const WhatsAppButton = ({ isPushedUp }) => {

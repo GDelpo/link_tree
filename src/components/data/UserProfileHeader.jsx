@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import MorphingAvatar from './MorphingAvatar';
-import ProfileInfo from './ProfileInfo';
-import CircularSocialLinks from './CircularSocialLinks';
+import MorphingAvatar from '@components/ui/MorphingAvatar';
+import ProfileInfo from '@components/data/ProfileInfo';
+import CircularSocialLinks from '@components/navigation/CircularSocialLinks';
 
 const UserProfileHeader = memo(({ profileData }) => {
   return (

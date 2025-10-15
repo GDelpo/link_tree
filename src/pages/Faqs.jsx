@@ -1,9 +1,9 @@
 import React from 'react';
 import { faqData } from '@content';
-import Accordion from '@components/Accordion';
-import PageHeader from '@components/PageHeader';
-import PageContainer from '@components/PageContainer';
-import SectionTitle from '@components/SectionTitle';
+import Accordion from '@components/data/Accordion';
+import PageHeader from '@components/layout/PageHeader';
+import PageContainer from '@components/layout/PageContainer';
+import SectionTitle from '@components/ui/SectionTitle';
 import { HelpCircle } from 'lucide-react';
 
 /** Pre-procesa los datos de las FAQ para dar estilo al texto del contenido desplegable. */

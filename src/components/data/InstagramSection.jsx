@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import CardGrid from '@components/CardGrid';
-import MediaCard from '@components/MediaCard';
+import CardGrid from '@components/ui/CardGrid';
+import MediaCard from '@components/ui/MediaCard';
 import { ArrowRight } from 'lucide-react';
 import { getInstagramPosts } from '@services/instagramService';
 import { profileData } from '@content';

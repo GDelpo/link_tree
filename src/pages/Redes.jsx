@@ -1,8 +1,8 @@
 import React from 'react';
-import PageHeader from '@components/PageHeader';
-import PageContainer from '@components/PageContainer';
-import InstagramSection from '@components/InstagramSection';
-import SectionTitle from '@components/SectionTitle';
+import PageHeader from '@components/layout/PageHeader';
+import PageContainer from '@components/layout/PageContainer';
+import InstagramSection from '@components/data/InstagramSection';
+import SectionTitle from '@components/ui/SectionTitle';
 import { SiInstagram, SiYoutube } from '@icons-pack/react-simple-icons';
 
 const Redes = () => {

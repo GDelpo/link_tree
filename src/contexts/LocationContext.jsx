@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { useGeolocation } from '../hooks/useGeolocation.js';
+import { useGeolocation } from '@hooks/useGeolocation.js';
 
 // 🌍 Contexto para información de geolocalización
 const LocationContext = createContext();

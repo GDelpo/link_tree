@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import Sidebar from '@components/Sidebar';
-import ThemeToggle from '@components/ThemeToggle';
-import SkipLink from '@components/SkipLink';
+import Sidebar from '@components/layout/Sidebar';
+import ThemeToggle from '@components/ui/ThemeToggle';
+import SkipLink from '@components/ui/SkipLink';
 import { Menu } from 'lucide-react'; // Íconos para el header móvil
-import FloatingButtons from '@components/FloatingButtons';
+import FloatingButtons from '@components/ui/FloatingButtons';
 import { useDocumentTitle } from '@hooks/useDocumentTitle';
 import { routeConfig } from '@config/routes';
 

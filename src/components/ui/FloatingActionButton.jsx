@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import AnimatedGradient from './AnimatedGradient';
+import AnimatedGradient from '@components/ui/AnimatedGradient';
 
 /**
  * Componente genérico para botones flotantes de acción

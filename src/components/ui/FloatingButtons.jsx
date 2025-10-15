@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import WhatsAppButton from './WhatsAppButton';
-import ScrollToTopButton from './ScrollToTopButton';
+import WhatsAppButton from '@components/navigation/WhatsAppButton';
+import ScrollToTopButton from '@components/ui/ScrollToTopButton';
 
 const FloatingButtons = () => {
   // Este estado ahora vive en el componente padre.

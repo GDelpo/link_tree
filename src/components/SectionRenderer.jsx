@@ -1,22 +1,22 @@
 import React from 'react';
 import { HelpCircle } from 'lucide-react';
 
-import PageSection from '@components/PageSection';
-import AnimatedSection from '@components/AnimatedSection';
-import ContentCard from '@components/ContentCard';
-import SectionTitle from '@components/SectionTitle';
-import ProgramsSection from '@components/ProgramsSection';
-import PersonalizedPlanCTA from '@components/PersonalizedPlanCTA';
-import CardGrid from '@components/CardGrid';
-import MediaCard from '@components/MediaCard';
-import Accordion from '@components/Accordion';
-import InstagramSection from '@components/InstagramSection';
+import PageSection from '@components/layout/PageSection';
+import AnimatedSection from '@components/ui/AnimatedSection';
+import ContentCard from '@components/layout/ContentCard';
+import SectionTitle from '@components/ui/SectionTitle';
+import ProgramsSection from '@components/data/ProgramsSection';
+import PersonalizedPlanCTA from '@components/data/PersonalizedPlanCTA';
+import CardGrid from '@components/ui/CardGrid';
+import MediaCard from '@components/ui/MediaCard';
+import Accordion from '@components/data/Accordion';
+import InstagramSection from '@components/data/InstagramSection';
 
 import {
   programsSectionData,
   personalizedPlanCtaData,
   personalizedPlanLink,
-  youTubeVideos,
+  //youTubeVideos,
   faqData,
 } from '@content';
 
@@ -27,6 +27,9 @@ import {
  */
 const SectionRenderer = ({ section }) => {
   const { id, type, title, icon, description, className, contentCardClassName } = section;
+
+  // TODO: Integrate real YouTube content when available
+  const youTubeVideos = [];
 
   const renderContent = () => {
     switch (type) {

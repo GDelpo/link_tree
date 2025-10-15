@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedSection from './AnimatedSection';
+import AnimatedSection from '@components/ui/AnimatedSection';
 
 /**
  * Contenedor principal para el contenido de las páginas estáticas.

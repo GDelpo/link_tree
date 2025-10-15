@@ -7,14 +7,14 @@ import MainLayout from '@layouts/MainLayout';
 import SimpleLayout from '@layouts/SimpleLayout';
 
 // Loading components
-import PageLoadingFallback from '@components/PageLoadingFallback';
-import LazyErrorBoundary from '@components/LazyErrorBoundary';
+import PageLoadingFallback from '@components/feedback/PageLoadingFallback';
+import LazyErrorBoundary from '@components/feedback/LazyErrorBoundary';
 
 // Contexts
-import { LocationProvider } from './contexts/LocationContext.jsx';
+import { LocationProvider } from '@contexts/LocationContext.jsx';
 
 // Development components
-import GeolocationDebugger from './components/GeolocationDebugger.jsx';
+import GeolocationDebugger from '@components/feedback/GeolocationDebugger.jsx';
 
 // Mapeo de strings → layouts reales
 const layoutMap = {

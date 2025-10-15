@@ -1,7 +1,7 @@
 import React from 'react';
-import PageSection from '@components/PageSection';
-import AnimatedSection from '@components/AnimatedSection'; // Importamos el nuevo componente
-import UserProfileHeader from '@components/UserProfileHeader';
+import PageSection from '@components/layout/PageSection';
+import AnimatedSection from '@components/ui/AnimatedSection';
+import UserProfileHeader from '@components/data/UserProfileHeader';
 import {
   profileData,
 } from '@content';

@@ -1,5 +1,6 @@
 import { personalInfo } from './personalData.js';
 import { MessageCircle } from 'lucide-react';
+import { buildWhatsAppLink } from '@/utils/linkUtils.js';
 
 // Find the phone number from personalInfo, remove spaces and the '+' sign
 export const WHATSAPP_PHONE = personalInfo.telefono.replace(/\s/g, '').replace('+', '');
@@ -7,9 +8,7 @@ export const WHATSAPP_PHONE = personalInfo.telefono.replace(/\s/g, '').replace('
 const WHATSAPP_MESSAGE_PREFIX = 'Hola! Quiero información del programa';
 
 export const generateWhatsAppLink = (programName) =>
-  `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(
-    `${WHATSAPP_MESSAGE_PREFIX} ${programName}`
-  )}`;
+  buildWhatsAppLink(WHATSAPP_PHONE, `${WHATSAPP_MESSAGE_PREFIX} ${programName}`);
 
 export const personalizedPlanLink = generateWhatsAppLink('personalizado');
 

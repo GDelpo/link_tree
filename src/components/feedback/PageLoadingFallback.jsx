@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '@components/ui/LoadingSpinner';
 
 /**
  * Loading específico para páginas que simula el esqueleto de la estructura

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUp } from 'lucide-react';
-import FloatingActionButton from './FloatingActionButton';
+import FloatingActionButton from '@components/ui/FloatingActionButton';
 import { SKY_GRADIENT_CLASSES } from '@/utils/constants';
 
 const ScrollToTopButton = ({ isVisible }) => {

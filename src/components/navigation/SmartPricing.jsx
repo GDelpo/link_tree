@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Check, Star } from 'lucide-react';
-import { useLocationContext } from '../contexts/LocationContext.jsx';
+import { useLocationContext } from '@contexts/LocationContext.jsx';
 
 // 💰 Componente principal para mostrar precios inteligentes
 export const SmartPricingSection = ({ program }) => {

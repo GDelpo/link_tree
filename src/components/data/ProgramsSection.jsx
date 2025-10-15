@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ProgramCard from '@components/ProgramCard';
-import ProgramDetailModal from '@components/ProgramDetailModal';
+import ProgramCard from '@components/data/ProgramCard';
+import ProgramDetailModal from '@components/data/ProgramDetailModal';
 
 /**
  * Renderiza una lista de tarjetas de programas y maneja el estado del modal.

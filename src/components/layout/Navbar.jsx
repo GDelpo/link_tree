@@ -1,6 +1,6 @@
 import React, { useState, memo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '@components/ui/ThemeToggle';
 import { Menu, X } from 'lucide-react'; // Importamos los íconos
 import { profileData } from '@content';
 import { useRoutePreloader } from '@hooks/useRoutePreloader';

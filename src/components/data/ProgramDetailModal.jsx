@@ -2,12 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Clock, Users, Smartphone, Dumbbell, Star, CreditCard, ExternalLink, MapPin } from 'lucide-react';
 import { useKeyboardNavigation, useFocusManagement } from '@hooks/useAccessibility';
-import { programsData, getSmartPrice, getSmartPriceDisplay } from '../content/programs.js';
-import { generateWhatsAppLink } from '../content/contact.js';
-import { useLocationContext, LocationIndicator } from '../contexts/LocationContext.jsx';
-import { SmartPricingSection } from './SmartPricing.jsx';
-import { SmartPaymentSection } from './SmartPayment.jsx';
-import Portal from './Portal';
+import { programsData } from '@content/programs.js';
+import { getSmartPrice, getSmartPriceDisplay } from '@/utils/programUtils.js';
+import { generateWhatsAppLink } from '@content/contact.js';
+import { useLocationContext, LocationIndicator } from '@contexts/LocationContext.jsx';
+import { SmartPricingSection } from '@components/navigation/SmartPricing.jsx';
+import { SmartPaymentSection } from '@components/navigation/SmartPayment.jsx';
+import Portal from '@components/layout/Portal';
 
 
 

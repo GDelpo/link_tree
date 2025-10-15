@@ -1,11 +1,11 @@
 import React from 'react';
 import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
-import Navbar from '@components/Navbar';
-import SkipLink from '@components/SkipLink';
+import Navbar from '@components/layout/Navbar';
+import SkipLink from '@components/ui/SkipLink';
 import { useActiveSection } from '@hooks/useActiveSection';
 import { linksNavItems } from '@config/pageSections'; // Importamos los navLinks
-import Footer from '@components/Footer';
-import FloatingButtons from '@components/FloatingButtons';
+import Footer from '@components/layout/Footer';
+import FloatingButtons from '@components/ui/FloatingButtons';
 import { useDocumentTitle } from '@hooks/useDocumentTitle';
 import { routeConfig } from '@config/routes';
 

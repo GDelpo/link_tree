@@ -5,10 +5,10 @@ import { profileData,personalInfo,
   education,
   experience } from '@content';
 
-import PageHeader from '@components/PageHeader';
-import PageContainer from '@components/PageContainer';
-import TimelineItem from '../components/TimelineItem';
-import DecoratedSectionTitle from '@components/DecoratedSectionTitle';
+import PageHeader from '@components/layout/PageHeader';
+import PageContainer from '@components/layout/PageContainer';
+import TimelineItem from '@components/ui/TimelineItem';
+import DecoratedSectionTitle from '@components/layout/DecoratedSectionTitle';
 
 const About = () => {
   return (

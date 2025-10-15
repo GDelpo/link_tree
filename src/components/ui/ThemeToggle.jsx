@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { useTheme } from '../hooks/useTheme.js';
+import { useTheme } from '@hooks/useTheme.js';
 import { useScreenReader } from '@hooks/useAccessibility';
 
 const ThemeToggle = () => {
