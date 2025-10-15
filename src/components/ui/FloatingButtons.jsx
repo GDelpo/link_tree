@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import WhatsAppButton from '@components/navigation/WhatsAppButton';
-import ScrollToTopButton from '@components/ui/ScrollToTopButton';
+import FloatingActionButton from '@components/ui/FloatingActionButton';
+import { SiWhatsapp } from '@icons-pack/react-simple-icons';
+import { ArrowUp } from 'lucide-react';
+import { EMERALD_GRADIENT_CLASSES, SKY_GRADIENT_CLASSES } from '@/utils/constants';
+import { WHATSAPP_PHONE } from '@content/contact';
 
 const FloatingButtons = () => {
   // Este estado ahora vive en el componente padre.
@@ -22,13 +25,37 @@ const FloatingButtons = () => {
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}`;
+  const positionClass = isScrollButtonVisible ? 'bottom-24' : 'bottom-8';
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
-      {/* Le pasamos una prop al WhatsAppButton para que sepa si tiene que "subir".
-        También le pasamos el estado de visibilidad del botón de scroll.
-      */}
-      <WhatsAppButton isPushedUp={isScrollButtonVisible} />
-      <ScrollToTopButton isVisible={isScrollButtonVisible} />
+      {/* WhatsApp */}
+      <FloatingActionButton
+        isVisible={true}
+        href={whatsappUrl}
+        icon={SiWhatsapp}
+        gradientColors={EMERALD_GRADIENT_CLASSES}
+        ariaLabel="Contactar por WhatsApp"
+        position={positionClass}
+        focusRingColor="focus:ring-green-500"
+        description="Abrir conversación de WhatsApp en una nueva pestaña"
+      />
+
+      {/* Scroll to top */}
+      <FloatingActionButton
+        isVisible={isScrollButtonVisible}
+        onClick={scrollToTop}
+        icon={ArrowUp}
+        gradientColors={SKY_GRADIENT_CLASSES}
+        ariaLabel="Volver al inicio de la página"
+        focusRingColor="focus:ring-sky-500"
+        description="Hacer clic para desplazarse al inicio de la página"
+      />
     </>
   );
 };

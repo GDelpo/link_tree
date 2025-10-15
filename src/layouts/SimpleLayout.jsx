@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '@components/layout/Navbar';
 import SkipLink from '@components/ui/SkipLink';
 import { useActiveSection } from '@hooks/useActiveSection';

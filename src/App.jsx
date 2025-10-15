@@ -16,11 +16,7 @@ import { LocationProvider } from '@contexts/LocationContext.jsx';
 // Development components
 import GeolocationDebugger from '@components/feedback/GeolocationDebugger.jsx';
 
-// Mapeo de strings → layouts reales
-const layoutMap = {
-  main: MainLayout,
-  simple: SimpleLayout,
-};
+// Mapeo de strings → layouts reales (no se usa directamente)
 
 function App() {
   const mainNavItems = buildMainNavItems(routeConfig);

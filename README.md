@@ -1,5 +1,14 @@
 # Link Tree (React + Vite)
 
+## Limpieza reciente (Oct 2025)
+
+- Simplificado `components/SectionRenderer.jsx`: se removió el caso de YouTube no usado.
+- Eliminados archivos no referenciados: `hooks/useFetchData.js`, `services/youtubeService.js`, `utils/contrastUtils.js`, `content/announcement.js`.
+- Eliminado `components/ui/Card.jsx` por no tener usos.
+- Consolidaciones: inlined `Portal`, `SmartPricing`, `SmartPayment` dentro de `ProgramDetailModal`.
+- Consolidaciones: inlined `WhatsAppButton` y `ScrollToTopButton` dentro de `FloatingButtons`.
+- Consolidaciones: inlined `CardGrid` y `MediaCard` dentro de `InstagramSection`.
+
 A modern, accessible, and modular “link-in-bio” app built with React, Vite, Tailwind CSS, and Framer Motion. It features a clean component architecture, secure Instagram integration via a serverless function, and deploys seamlessly on Vercel.
 
 ## Features
@@ -61,15 +70,15 @@ import ProgramsSection from '@components/data/ProgramsSection';
 To improve maintainability, components are organized into intent-based subfolders under `src/components/`:
 
 - layout/ — page layout building blocks
-	- PageHeader, PageContainer, PageSection, ContentCard, Sidebar, Navbar, Footer, DecoratedSectionTitle, Portal
+  - PageHeader, PageContainer, PageSection, ContentCard, Sidebar, Navbar, Footer, DecoratedSectionTitle
 - ui — generic UI elements and primitives
-	- AnimatedSection, AnimatedGradient, Card, CardGrid, MediaCard, SectionTitle, TimelineItem, FloatingActionButton, FloatingButtons, ThemeToggle, LoadingSpinner, MorphingAvatar, ScrollToTopButton, SkipLink
+  - AnimatedSection, AnimatedGradient, SectionTitle, TimelineItem, FloatingActionButton, FloatingButtons, ThemeToggle, LoadingSpinner, MorphingAvatar, SkipLink
 - data — components that render content sections or data-centric UIs
-	- ProgramsSection, ProgramCard, ProgramDetailModal, InstagramSection, Accordion, PersonalizedPlanCTA, ProfileInfo, UserProfileHeader
+  - ProgramsSection, ProgramCard, ProgramDetailModal (incluye Portal + SmartPricing + SmartPayment inlined), InstagramSection (incluye grid + media card inlined), Accordion, PersonalizedPlanCTA, ProfileInfo, UserProfileHeader
 - navigation — navigation and action entry points
-	- CircularSocialLinks, WhatsAppButton, SmartPayment, SmartPricing
+  - CircularSocialLinks
 - feedback — loading, error boundaries, and debug helpers
-	- LazyErrorBoundary, PageLoadingFallback, GeolocationDebugger
+  - LazyErrorBoundary, PageLoadingFallback, GeolocationDebugger
 
 Transition note (proxy re-exports):
 
@@ -110,12 +119,12 @@ Response shape (example):
 
 ```json
 [
-	{
-		"id": "123",
-		"permalink": "https://instagram.com/p/...",
-		"imageUrl": "https://.../image.jpg",
-		"mediaType": "IMAGE"
-	}
+  {
+    "id": "123",
+    "permalink": "https://instagram.com/p/...",
+    "imageUrl": "https://.../image.jpg",
+    "mediaType": "IMAGE"
+  }
 ]
 ```
 

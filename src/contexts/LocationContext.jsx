@@ -1,3 +1,4 @@
+/* eslint react-refresh/only-export-components: "off" */
 import React, { createContext, useContext } from 'react';
 import { useGeolocation } from '@hooks/useGeolocation.js';
 
@@ -25,7 +26,7 @@ export const useLocationContext = () => {
 
 // 💰 Componente que muestra indicador de ubicación y precios
 export const LocationIndicator = ({ className = '' }) => {
-  const { country, countryCode, isArgentina, isLoading, error } = useLocationContext();
+  const { country, countryCode: _countryCode, isArgentina, isLoading, error } = useLocationContext();
 
   if (isLoading) {
     return (

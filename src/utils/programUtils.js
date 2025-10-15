@@ -50,47 +50,67 @@ export const createProgram = (key, config) => {
     equipment: config.equipment || BASIC_EQUIPMENT,
     bonusFeatures: config.bonusFeatures || [STANDARD_BONUS],
     paymentMethods: config.paymentMethods || { local: ['Transferencia'], international: ['PayPal'] },
-    ...(config.specialOffer && { specialOffer: config.specialOffer }),
     ...(config.specialNote && { specialNote: config.specialNote }),
   };
+};
+
+// Normalize various price shapes into a single canonical structure
+// Canonical: { options: { [key]: { regular: { local?, international? }, specialOffer?: { local?, international? } } } }
+export const normalizePrice = (price) => {
+  if (!price) return { options: {} };
+  // If already normalized-like
+  if (price.options) return { options: { ...price.options } };
+
+  const options = {};
+
+  const looksLikeSimple = typeof price.local === 'string' || typeof price.international === 'string';
+  const topHasBands = price.regular || price.launch || price.special || price.specialOffer;
+
+  if (looksLikeSimple || topHasBands) {
+    options.default = {
+      regular: price.regular || (looksLikeSimple ? { local: price.local, international: price.international } : undefined),
+      specialOffer: price.specialOffer || price.launch || price.special || undefined,
+    };
+    return { options };
+  }
+
+  // Assume keys are options like '9weeks', '12weeks'
+  Object.entries(price).forEach(([key, val]) => {
+    if (!val || typeof val !== 'object') return;
+    const regular = val.regular || (val.local || val.international ? { local: val.local, international: val.international } : undefined);
+    const specialOffer = val.specialOffer || val.launch || val.special || undefined;
+    options[key] = { ...(regular ? { regular } : {}), ...(specialOffer ? { specialOffer } : {}) };
+  });
+
+  return { options };
 };
 
 // Compute the primary price string based on location
 export const getSmartPrice = (priceStructure, isArgentina) => {
   if (!priceStructure) return 'Consultar';
-
-  // Simple structure (local/international)
-  if (priceStructure.local && priceStructure.international) {
-    return isArgentina ? priceStructure.local : priceStructure.international;
-  }
-
-  // Complex structure (multiple durations/options)
-  const keys = Object.keys(priceStructure);
+  const { options } = normalizePrice(priceStructure);
+  const keys = Object.keys(options);
   if (keys.length === 0) return 'Consultar';
-
-  const firstKey = keys[0];
-  const firstPrice = priceStructure[firstKey];
-
-  if (firstPrice?.local && firstPrice?.international) {
-    return isArgentina ? firstPrice.local : firstPrice.international;
-  } else if (firstPrice?.international) {
-    return firstPrice.international;
-  }
-
-  return 'Consultar';
+  const first = options.default ? options.default : options[keys[0]];
+  if (!first) return 'Consultar';
+  const band = first.specialOffer || first.regular || {};
+  if (isArgentina && band.local) return band.local;
+  if (!isArgentina && band.international) return band.international;
+  // Fallback to whichever is available
+  return band.local || band.international || 'Consultar';
 };
 
 export const getSmartPriceDisplay = (priceStructure, isArgentina) => {
   if (!priceStructure) return 'Consultar precio';
-
-  if (priceStructure.local && priceStructure.international) {
-    const price = isArgentina ? priceStructure.local : priceStructure.international;
-    const flag = isArgentina ? '🇦🇷' : '🌍';
-    return `${flag} ${price}`;
-  }
-
-  const keys = Object.keys(priceStructure);
+  const flag = isArgentina ? '🇦🇷' : '🌍';
+  const { options } = normalizePrice(priceStructure);
+  const keys = Object.keys(options);
   if (keys.length === 0) return 'Consultar precio';
-
-  return `${isArgentina ? '🇦🇷' : '🌍'} Desde ${getSmartPrice(priceStructure, isArgentina)}`;
+  if (keys.length === 1) {
+    const only = options[keys[0]];
+    const band = only.specialOffer || only.regular || {};
+    const val = isArgentina ? (band.local || band.international) : (band.international || band.local);
+    return `${flag} ${val || 'Consultar precio'}`;
+  }
+  return `${flag} Desde ${getSmartPrice(priceStructure, isArgentina)}`;
 };

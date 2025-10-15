@@ -1,14 +1,10 @@
 import React from 'react';
-import { HelpCircle } from 'lucide-react';
-
 import PageSection from '@components/layout/PageSection';
 import AnimatedSection from '@components/ui/AnimatedSection';
 import ContentCard from '@components/layout/ContentCard';
 import SectionTitle from '@components/ui/SectionTitle';
 import ProgramsSection from '@components/data/ProgramsSection';
 import PersonalizedPlanCTA from '@components/data/PersonalizedPlanCTA';
-import CardGrid from '@components/ui/CardGrid';
-import MediaCard from '@components/ui/MediaCard';
 import Accordion from '@components/data/Accordion';
 import InstagramSection from '@components/data/InstagramSection';
 
@@ -16,7 +12,6 @@ import {
   programsSectionData,
   personalizedPlanCtaData,
   personalizedPlanLink,
-  //youTubeVideos,
   faqData,
 } from '@content';
 
@@ -28,9 +23,6 @@ import {
 const SectionRenderer = ({ section }) => {
   const { id, type, title, icon, description, className, contentCardClassName } = section;
 
-  // TODO: Integrate real YouTube content when available
-  const youTubeVideos = [];
-
   const renderContent = () => {
     switch (type) {
       case 'programs':
@@ -39,8 +31,6 @@ const SectionRenderer = ({ section }) => {
         return <PersonalizedPlanCTA ctaData={personalizedPlanCtaData} contactLink={personalizedPlanLink} />;
       case 'instagram':
         return <InstagramSection limit={3} />;
-      case 'youtube':
-        return <CardGrid items={youTubeVideos} renderItem={(video) => <MediaCard item={video} type="youtube" />} />;
       case 'faq':
         return <Accordion items={faqData} />;
       default:

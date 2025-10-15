@@ -1,14 +1,311 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Clock, Users, Smartphone, Dumbbell, Star, CreditCard, ExternalLink, MapPin } from 'lucide-react';
+import { X, Clock, Users, Smartphone, Star, CreditCard, Check, Shield, MessageCircle, Dumbbell } from 'lucide-react';
 import { useKeyboardNavigation, useFocusManagement } from '@hooks/useAccessibility';
-import { programsData } from '@content/programs.js';
-import { getSmartPrice, getSmartPriceDisplay } from '@/utils/programUtils.js';
+import { getSmartPriceDisplay, normalizePrice } from '@/utils/programUtils.js';
 import { generateWhatsAppLink } from '@content/contact.js';
 import { useLocationContext, LocationIndicator } from '@contexts/LocationContext.jsx';
-import { SmartPricingSection } from '@components/navigation/SmartPricing.jsx';
-import { SmartPaymentSection } from '@components/navigation/SmartPayment.jsx';
-import Portal from '@components/layout/Portal';
+// Inline Portal implementation (previously @components/layout/Portal)
+import { createPortal } from 'react-dom';
+
+const usePortal = (id = 'portal-root') => {
+  const [container, setContainer] = useState(null);
+  useEffect(() => {
+    let portalContainer = document.getElementById(id);
+    if (!portalContainer) {
+      portalContainer = document.createElement('div');
+      portalContainer.id = id;
+      portalContainer.style.position = 'relative';
+      portalContainer.style.zIndex = '9999';
+      document.body.appendChild(portalContainer);
+    }
+    setContainer(portalContainer);
+    return () => {
+      if (portalContainer && portalContainer.children.length === 0) {
+        document.body.removeChild(portalContainer);
+      }
+    };
+  }, [id]);
+  return container;
+};
+
+const Portal = ({ children, id = 'portal-root' }) => {
+  const container = usePortal(id);
+  return container ? createPortal(children, container) : null;
+};
+
+// Inline SmartPricingSection (previously @components/navigation/SmartPricing.jsx)
+const SmartPricingSection = ({ program }) => {
+  if (!program?.price) return null;
+  const hasMultipleDurations = (price) => {
+    const normalized = normalizePrice(price);
+    const keys = Object.keys(normalized.options);
+    return keys.length > 1;
+  };
+  return (
+    <div className="space-y-4">
+      {hasMultipleDurations(program.price) ? (
+        <InteractiveDurationSelector program={program} />
+      ) : (
+        <PersonalizedPriceCard program={program} />
+      )}
+    </div>
+  );
+};
+
+const PersonalizedPriceCard = ({ program, selectedDuration }) => {
+  const { isArgentina, isLoading } = useLocationContext();
+  const getPersonalizedPrice = (durationKey = null) => {
+    const normalized = normalizePrice(program.price);
+    const keys = Object.keys(normalized.options);
+    if (keys.length === 0) return null;
+    const targetKey = durationKey && normalized.options[durationKey] ? durationKey : (normalized.options.default ? 'default' : keys[0]);
+    const band = normalized.options[targetKey].specialOffer || normalized.options[targetKey].regular || {};
+    const current = isArgentina ? (band.local || band.international) : (band.international || band.local);
+    return {
+      current,
+      label: isArgentina ? 'Argentina' : 'Internacional',
+      currency: isArgentina ? 'ARS' : 'USD',
+      duration: targetKey === 'default' ? program.duration : targetKey.replace('weeks', ' semanas'),
+      durationKey: targetKey,
+    };
+  };
+  const getPromotionalPrice = () => {
+    const normalized = normalizePrice(program.price);
+    const opt = normalized.options.default || normalized.options[Object.keys(normalized.options)[0]];
+    if (!opt) return null;
+    const regular = opt.regular || {};
+    const special = opt.specialOffer || null;
+    if (!special) return null;
+    const regVal = isArgentina ? (regular.local || regular.international) : (regular.international || regular.local);
+    const promoVal = isArgentina ? (special.local || special.international) : (special.international || special.local);
+    if (!promoVal) return null;
+    return {
+      regular: regVal,
+      promotional: promoVal,
+      label: isArgentina ? 'Argentina' : 'Internacional',
+      duration: program.duration,
+    };
+  };
+  const priceData = getPersonalizedPrice(selectedDuration);
+  const promoData = getPromotionalPrice();
+  if (!priceData && !promoData) return null;
+  return (
+    <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-4">
+          <Star className="w-5 h-5 text-yellow-300" />
+          <span className="text-sm font-medium text-emerald-100">Tu inversión</span>
+        </div>
+        {isLoading ? (
+          <div className="text-2xl font-bold mb-1">Calculando...</div>
+        ) : promoData ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="text-xl text-emerald-200 line-through opacity-75">{promoData.regular}</span>
+              <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">🔥 OFERTA ESPECIAL</div>
+            </div>
+            <div className="text-4xl font-bold">{promoData.promotional}</div>
+          </div>
+        ) : (
+          <div className="text-4xl font-bold mb-1">{priceData.current}</div>
+        )}
+        <p className="text-emerald-100 text-sm mt-2">{(promoData || priceData).label} • {(promoData || priceData).duration}</p>
+        <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/20">
+          <div className="flex items-center gap-1.5">
+            <Check className="w-4 h-4 text-white" />
+            <span className="text-xs">Seguimiento personalizado</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Check className="w-4 h-4 text-white" />
+            <span className="text-xs">Acceso móvil</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InteractiveDurationSelector = ({ program }) => {
+  const { isArgentina } = useLocationContext();
+  const { price } = program;
+  const [selectedDuration, setSelectedDuration] = useState(null);
+  const normalized = normalizePrice(price);
+  const priceKeys = Object.keys(normalized.options).filter((k) => k !== 'default');
+  useEffect(() => {
+    if (!selectedDuration && priceKeys.length > 0) {
+      setSelectedDuration(priceKeys[0]);
+    }
+  }, [selectedDuration, priceKeys]);
+  const isSingleDuration = priceKeys.length <= 1;
+  return (
+    <div className="space-y-4">
+      {isSingleDuration ? (
+        <PersonalizedPriceCard program={program} />
+      ) : (
+        <>
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
+            <div className="mb-3">
+              <h4 className="font-semibold text-slate-800 dark:text-white text-sm mb-1">¿Cuánto tiempo quieres entrenar?</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Selecciona la duración y ve tu precio actualizado abajo</p>
+            </div>
+            <div className="grid gap-2">
+              {priceKeys.map((key) => {
+                const option = normalized.options[key];
+                const duration = key.replace('weeks', ' semanas');
+                const isSelected = selectedDuration === key;
+                const band = option.specialOffer || option.regular || {};
+                const relevantPrice = isArgentina ? (band.local || band.international) : (band.international || band.local);
+                if (!relevantPrice) return null;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setSelectedDuration(key)}
+                    className={`flex justify-between items-center p-3 rounded-lg border transition-all duration-200 text-left ${
+                      isSelected ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg' : 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-400'
+                    }`}
+                  >
+                    <span className={`font-medium ${isSelected ? 'text-white' : 'text-slate-700 dark:text-slate-300'}`}>{duration}</span>
+                    <span className={`font-bold ${isSelected ? 'text-white' : 'text-slate-800 dark:text-white'}`}>{relevantPrice}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <PersonalizedPriceCard program={program} selectedDuration={selectedDuration} />
+        </>
+      )}
+    </div>
+  );
+};
+
+// Inline SmartPaymentSection (previously @components/navigation/SmartPayment.jsx)
+const SmartPaymentSection = ({ program }) => {
+  return (
+    <div className="space-y-4">
+      <RelevantPaymentMethods program={program} />
+      <DeliveryInfo program={program} />
+      <ContactButtons program={program} />
+    </div>
+  );
+};
+
+const RelevantPaymentMethods = ({ program }) => {
+  const { isArgentina } = useLocationContext();
+  const getRelevantMethods = () => {
+    const { paymentMethods } = program;
+    if (!paymentMethods) return [];
+    return isArgentina ? paymentMethods.local || [] : paymentMethods.international || [];
+  };
+  const methods = getRelevantMethods();
+  if (methods.length === 0) return null;
+  return (
+    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
+      <h4 className="font-semibold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+        <CreditCard className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+        Métodos de pago disponibles {isArgentina ? 'en Argentina' : 'internacionales'}
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {methods.map((method, index) => (
+          <PaymentMethodCard key={index} method={method} />
+        ))}
+      </div>
+      <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div className="flex items-start gap-2">
+          <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5" />
+          <div className="text-sm text-blue-800 dark:text-blue-200">
+            <strong>Pago seguro:</strong> {isArgentina ? 'Transferencias bancarias directas. Te enviaremos los datos una vez que confirmes tu interés.' : 'Pagos internacionales a través de PayPal. Procesamiento seguro y confiable en todo el mundo.'}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PaymentMethodCard = ({ method: _method }) => {
+  const getMethodIcon = () => {
+    const methodLower = _method.toLowerCase();
+    if (methodLower.includes('paypal')) return '💙';
+    if (methodLower.includes('transfer') || methodLower.includes('transferencia')) return '🏦';
+    if (methodLower.includes('mercado')) return '💚';
+    if (methodLower.includes('stripe')) return '💜';
+    return '💳';
+  };
+  return (
+    <div className="flex items-center gap-3 p-2 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
+      <span className="text-lg">{getMethodIcon()}</span>
+  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{_method}</span>
+    </div>
+  );
+};
+
+const DeliveryInfo = ({ program: _program }) => {
+  const { isArgentina } = useLocationContext();
+  return (
+    <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4">
+      <h4 className="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center gap-2">
+        <Smartphone className="w-4 h-4 text-green-600 dark:text-green-400" />
+        Acceso al programa
+      </h4>
+      <div className="space-y-3">
+        <AccessStep
+          step="1"
+          title="Confirmación de pago"
+          description={isArgentina ? 'Realizás la transferencia y nos envías el comprobante' : 'Completás tu pago PayPal de forma segura'}
+          icon={<CreditCard className="w-4 h-4 text-green-600 dark:text-green-400" />}
+        />
+        <AccessStep
+          step="2"
+          title="Acceso inmediato"
+          description="Te enviamos el acceso a la app móvil dentro de las 24hs por email"
+          icon={<Smartphone className="w-4 h-4 text-green-600 dark:text-green-400" />}
+        />
+        <AccessStep
+          step="3"
+          title="Soporte continuo"
+          description="Seguimiento personalizado durante todo el programa"
+          icon={<MessageCircle className="w-4 h-4 text-green-600 dark:text-green-400" />}
+        />
+      </div>
+    </div>
+  );
+};
+
+const AccessStep = ({ step, title, description, icon }) => (
+  <div className="flex items-start gap-3">
+    <div className="flex-shrink-0 w-6 h-6 bg-green-600 text-white text-xs font-bold rounded-full flex items-center justify-center">{step}</div>
+    <div className="flex-grow">
+      <div className="flex items-center gap-2 mb-1">{icon}<h5 className="font-medium text-green-800 dark:text-green-200 text-sm">{title}</h5></div>
+      <p className="text-green-700 dark:text-green-300 text-xs">{description}</p>
+    </div>
+  </div>
+);
+
+const ContactButtons = ({ program }) => {
+  const { isArgentina, country } = useLocationContext();
+  const getPersonalizedMessage = () => {
+    const baseMessage = `Hola! Me interesa el ${program.title}`;
+    return isArgentina
+      ? `${baseMessage}. ¿Podrías contarme más detalles sobre el programa y cómo realizar el pago en Argentina?`
+      : `${baseMessage}. ¿Podrías contarme más detalles sobre el programa y las opciones de pago internacional? Te escribo desde ${country || 'fuera de Argentina'}.`;
+  };
+  const whatsappLink = generateWhatsAppLink(getPersonalizedMessage());
+  return (
+    <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4">
+      <div className="text-center text-white mb-4">
+        <h4 className="font-bold mb-1">¿Listo para empezar?</h4>
+        <p className="text-green-100 text-sm">Contactanos para más información y comenzar tu transformación</p>
+      </div>
+      <div className="space-y-2">
+        <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full bg-white text-green-600 hover:bg-green-50 font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg">
+          <MessageCircle className="w-5 h-5" /> Consultar por WhatsApp
+        </a>
+        <div className="text-center"><p className="text-green-100 text-xs">✓ Respuesta garantizada en menos de 2 horas</p></div>
+      </div>
+    </div>
+  );
+};
 
 
 
@@ -16,7 +313,7 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const { trapFocus, restoreFocus } = useFocusManagement();
-  const { isArgentina, isLoading: locationLoading, country } = useLocationContext();
+  const { isArgentina, isLoading: locationLoading } = useLocationContext();
   
   // Helper function para obtener el precio principal a mostrar (ahora inteligente)
   const getPrimaryPrice = (priceStructure) => {
@@ -32,18 +329,18 @@ const ProgramDetailModal = ({ program, isOpen, onClose }) => {
 
   // Trap focus cuando el modal está abierto
   useEffect(() => {
-    if (isOpen && modalRef.current) {
-      trapFocus(modalRef.current);
-      closeButtonRef.current?.focus();
-      
-      // Prevenir scroll del body
-      document.body.style.overflow = 'hidden';
-      
-      return () => {
-        document.body.style.overflow = '';
-        restoreFocus();
-      };
-    }
+    if (!isOpen || !modalRef.current) return;
+    trapFocus(modalRef.current);
+    closeButtonRef.current?.focus();
+
+    // Prevenir scroll del body
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      restoreFocus();
+    };
   }, [isOpen, trapFocus, restoreFocus]);
 
   if (!program) return null;

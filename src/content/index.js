@@ -7,4 +7,3 @@ export * from './profile';
 export * from './programs';
 export * from './faq';
 export * from './personalData';
-export * from './announcement';

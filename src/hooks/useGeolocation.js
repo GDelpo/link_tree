@@ -21,9 +21,19 @@ export const useGeolocation = () => {
       }
 
       console.log('🎯 Intentando Geolocation API del navegador...');
+      let settled = false;
+      const watchdog = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        console.log('⏳ Geolocation timeout, activando fallback...');
+        reject(new Error('Geolocation timeout'));
+      }, 4000);
       
       navigator.geolocation.getCurrentPosition(
         async (position) => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(watchdog);
           try {
             const { latitude, longitude } = position.coords;
             console.log(`📍 Coordenadas obtenidas: ${latitude}, ${longitude}`);
@@ -50,6 +60,9 @@ export const useGeolocation = () => {
         },
         (error) => {
           console.log('❌ Geolocation API falló:', error.message);
+          if (settled) return;
+          settled = true;
+          clearTimeout(watchdog);
           reject(error);
         },
         { timeout: 5000, enableHighAccuracy: false }
@@ -72,6 +85,8 @@ export const useGeolocation = () => {
           'America/Argentina/Buenos_Aires': { country: 'Argentina', countryCode: 'AR', currency: 'ARS' },
           'America/Argentina/Cordoba': { country: 'Argentina', countryCode: 'AR', currency: 'ARS' },
           'America/Argentina/Mendoza': { country: 'Argentina', countryCode: 'AR', currency: 'ARS' },
+          // Variantes históricas/abreviadas comunes en iOS o navegadores
+          'America/Buenos_Aires': { country: 'Argentina', countryCode: 'AR', currency: 'ARS' },
           
           // Otros países latinoamericanos
           'America/Mexico_City': { country: 'México', countryCode: 'MX', currency: 'MXN' },
@@ -98,8 +113,8 @@ export const useGeolocation = () => {
             detectionMethod: 'Timezone Detection'
           });
         } else {
-          // Si no está en el mapeo, intentar detectar por región
-          if (timezone.includes('Argentina')) {
+          // Si no está en el mapeo, intentar detectar por patrón conocido
+          if (timezone.includes('Argentina') || timezone.includes('Buenos_Aires')) {
             resolve({
               country: 'Argentina',
               countryCode: 'AR',
@@ -127,6 +142,17 @@ export const useGeolocation = () => {
         const language = navigator.language || navigator.languages?.[0];
         console.log(`🌐 Idioma detectado: ${language}`);
         
+        // Intentar extraer región con Intl.Locale cuando esté disponible
+        let region = null;
+        try {
+          // Intl.Locale soportado en navegadores modernos (iOS incluidos)
+          const locale = new Intl.Locale(language);
+          region = locale.region || null;
+        } catch {
+          // Intl.Locale no soportado; dejamos region en null
+          region = null;
+        }
+        
         // Mapeo de locales a países
         const localeToCountry = {
           'es-AR': { country: 'Argentina', countryCode: 'AR', currency: 'ARS' },
@@ -139,7 +165,7 @@ export const useGeolocation = () => {
           'en-US': { country: 'Estados Unidos', countryCode: 'US', currency: 'USD' },
         };
         
-        const countryData = localeToCountry[language];
+        const countryData = localeToCountry[language] || (region ? localeToCountry[`es-${region}`] : null);
         
         if (countryData) {
           resolve({
@@ -176,12 +202,13 @@ export const useGeolocation = () => {
           currency: data.currency
         })
       },
+      // Alternativa pública con HTTPS
       {
-        url: 'http://ip-api.com/json/',
+        url: 'https://ipwho.is/',
         parser: (data) => ({
           country: data.country,
-          countryCode: data.countryCode,
-          currency: data.currency
+          countryCode: data.country_code,
+          currency: data.currency?.code
         })
       }
     ];
@@ -233,14 +260,15 @@ export const useGeolocation = () => {
     return currencyMap[countryCode] || 'USD';
   };
 
-  // 🔄 Método principal con cascada de fallbacks
+  // 🔄 Método principal con cascada de fallbacks (primero permiso-less)
   const detectLocation = async () => {
     console.log('🌍 Iniciando detección híbrida de ubicación...');
     
     const methods = [
-      tryBrowserGeolocation,
+      // Evitar prompts innecesarios en móviles: primero métodos sin permisos
       tryTimezoneDetection,
       tryLanguageDetection,
+      tryBrowserGeolocation,
       tryExternalAPIs
     ];
 
@@ -256,7 +284,7 @@ export const useGeolocation = () => {
             isArgentina: result.countryCode === 'AR'
           };
         }
-      } catch (error) {
+      } catch {
         console.log(`❌ Método falló, probando siguiente...`);
         continue;
       }
@@ -295,10 +323,13 @@ export const useGeolocation = () => {
 
   const setCachedLocation = (locationData) => {
     try {
-      const cacheData = {
-        data: locationData,
-        timestamp: Date.now()
-      };
+      // No cachear resultados de fallback para permitir mejoras en próximos loads
+      const isFallback = locationData.countryCode === 'INT' || String(locationData.detectionMethod || '').includes('Fallback');
+      if (isFallback) {
+        console.log('⏭️ No cacheamos fallback para reintentar en próximos loads');
+        return;
+      }
+      const cacheData = { data: locationData, timestamp: Date.now() };
       localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
       console.log('💾 Ubicación guardada en caché');
     } catch (error) {
@@ -307,17 +338,19 @@ export const useGeolocation = () => {
   };
 
   // 🚀 Effect principal
+  // We intentionally run this once on mount; dependencies would re-trigger detection unnecessarily.
   useEffect(() => {
     const initializeLocation = async () => {
       // Intentar caché primero
       const cached = getCachedLocation();
       if (cached) {
-        setLocationData({
-          ...cached,
-          isLoading: false,
-          error: null
-        });
-        return;
+        // Usar caché para pintar rápido
+        setLocationData({ ...cached, isLoading: false, error: null });
+        // Si el caché es fallback/genérico, continuar detectando en segundo plano para mejorar
+        const isFallback = cached.countryCode === 'INT' || String(cached.detectionMethod || '').includes('Fallback');
+        if (!isFallback) {
+          return; // Caché confiable, no continuamos
+        }
       }
 
       // Si no hay caché, detectar ubicación
@@ -358,7 +391,7 @@ export const useGeolocation = () => {
     };
 
     initializeLocation();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 🔄 Método público para refrescar ubicación
   const refetchLocation = async () => {

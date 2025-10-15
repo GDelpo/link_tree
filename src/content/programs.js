@@ -1,5 +1,4 @@
 import { LayoutGrid, Layers, Dumbbell, BicepsFlexed, Zap, Feather } from "lucide-react";
-import { generateWhatsAppLink } from './contact.js';
 
 // Utilidades extraídas a utils para mantener este archivo sólo con data
 import { createProgram, PROGRAM_EMOJIS } from '@/utils/programUtils.js';
@@ -13,8 +12,12 @@ const PROGRAMS_CONFIG = {
     duration: "12 SEMANAS",
     frequency: "4 estímulos de fuerza / 1 estímulo de velocidad",
     price: {
-      regular: { local: "$110.000", international: "U$80" },
-      launch: { local: "$85.000", international: "U$65" }
+      options: {
+        default: {
+          regular: { local: "$110.000", international: "U$80" },
+          specialOffer: { local: "$85.000", international: "U$65" },
+        }
+      }
     },
     Icon: Layers,
     gradientClasses: "from-blue-500 to-cyan-400",
@@ -23,7 +26,7 @@ const PROGRAMS_CONFIG = {
       "Rebuild es un programa diseñado para hacer fuera de la temporada deportiva, 4 o 5 veces por semana. Basado en los principios del entrenamiento, el objetivo principal es mejorar los ejercicios básicos (sentadilla, peso muerto, banco plano) y desarrollar la masa muscular, sin perder la condición atlética.",
       "¿Sentís que no progresás en tus ejercicios básicos o en la ganancia de masa muscular? Con este programa, compuesto por trabajos de fuerza, hipertrofia y potencia, vamos a salir de lo tradicional y romper tu estancamiento."
     ],
-    specialOffer: "VALOR LANZAMIENTO (solo los primeros 10): $85.000 / U$60"
+    
   },
 
   "BIGGER & ATHLETIC": {
@@ -32,8 +35,10 @@ const PROGRAMS_CONFIG = {
     duration: "9 / 12 SEMANAS",
     frequency: "4 estímulos por semana",
     price: {
-      "9weeks": { local: "$56.000", international: "U$40" },
-      "12weeks": { local: "$70.000", international: "U$50" }
+      options: {
+        "9weeks": { regular: { local: "$56.000", international: "U$40" } },
+        "12weeks": { regular: { local: "$70.000", international: "U$50" } },
+      }
     },
     Icon: Dumbbell,
     gradientClasses: "from-red-500 to-orange-400",
@@ -50,8 +55,10 @@ const PROGRAMS_CONFIG = {
     duration: "8 / 12 SEMANAS",
     frequency: "3 estímulos por semana",
     price: {
-      "8weeks": { local: "$56.000", international: "U$40" },
-      "12weeks": { local: "$70.000", international: "U$50" }
+      options: {
+        "8weeks": { regular: { local: "$56.000", international: "U$40" } },
+        "12weeks": { regular: { local: "$70.000", international: "U$50" } },
+      }
     },
     Icon: BicepsFlexed,
     gradientClasses: "from-emerald-500 to-green-400",
@@ -73,8 +80,10 @@ const PROGRAMS_CONFIG = {
     duration: "6 / 9 SEMANAS",
     frequency: "3 estímulos por semana",
     price: {
-      "6weeks": { international: "U$35" },
-      "9weeks": { international: "U$40" }
+      options: {
+        "6weeks": { regular: { local: "$40.000", international: "U$35" } },
+        "9weeks": { regular: { local: "$50.000", international: "U$40" } },
+      }
     },
     Icon: Zap,
     gradientClasses: "from-amber-400 to-yellow-300",
@@ -97,8 +106,9 @@ const PROGRAMS_CONFIG = {
     duration: "8 SEMANAS",
     frequency: "3 estímulos por semana",
     price: {
-      local: "$56.000",
-      international: "U$40"
+      options: {
+        default: { regular: { local: "$56.000", international: "U$40" } },
+      }
     },
     Icon: Feather,
     gradientClasses: "from-purple-500 to-indigo-400",
@@ -163,7 +173,6 @@ export const programsSectionData = {
   content: rawPrograms.map((program, index) => ({
     id: `prog-${index + 1}`,
     ...program,
-    link: generateWhatsAppLink(program.title),
     // Agregar referencia a datos detallados
     detailedInfo: programsData[program.title] || null,
   })),

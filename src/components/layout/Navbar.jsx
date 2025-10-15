@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ThemeToggle from '@components/ui/ThemeToggle';
 import { Menu, X } from 'lucide-react'; // Importamos los íconos
 import { profileData } from '@content';
-import { useRoutePreloader } from '@hooks/useRoutePreloader';
+// import { useRoutePreloader } from '@hooks/useRoutePreloader';
 import { useFocusManagement, useScreenReader } from '@hooks/useAccessibility';
 
 /**
@@ -11,7 +11,7 @@ import { useFocusManagement, useScreenReader } from '@hooks/useAccessibility';
  * Se reutiliza para la vista de escritorio y el menú móvil.
  */
 const NavLinksList = memo(({ links, onLinkClick, activeSection, isMobile = false }) => {
-  const { preloadRoute } = useRoutePreloader();
+  // const { preloadRoute } = useRoutePreloader();
   const { announce } = useScreenReader();
   
   const handleLinkClick = (e, linkId) => {
@@ -55,8 +55,9 @@ const NavLinksList = memo(({ links, onLinkClick, activeSection, isMobile = false
                 : "text-slate-700 dark:text-slate-300 hover:bg-sky-500/10 hover:text-sky-600 dark:hover:text-sky-400"
             }`}
             onClick={(e) => handleLinkClick(e, link.id)}
-            onMouseEnter={() => preloadRoute(`/${link.id}`)}
+            // Enlaces internos de ancla: no corresponde pre-cargar rutas
             aria-current={isActive ? 'page' : undefined}
+            aria-selected={isActive ? true : undefined}
             aria-describedby={`nav-desc-${link.id}`}
             role={isMobile ? 'menuitem' : undefined}
           >

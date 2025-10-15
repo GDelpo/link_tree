@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { profileData } from '@content';
 import { useRoutePreloader } from '@hooks/useRoutePreloader';
 import { useFocusManagement, useScreenReader } from '@hooks/useAccessibility';
+import Footer from '@components/layout/Footer';
 
 /**
  * Sidebar de navegación principal. Es responsive: se oculta fuera de la pantalla en móvil
@@ -89,7 +90,7 @@ const Sidebar = memo(({ isOpen, onClose, navItems = [] }) => {
           </h1>
           <nav role="navigation" aria-label="Menú de páginas principales">
             <ul className="flex flex-col gap-2" role="list">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <li key={item.to} role="none">
                   <NavLink
                     to={item.to}
@@ -111,9 +112,7 @@ const Sidebar = memo(({ isOpen, onClose, navItems = [] }) => {
             </ul>
           </nav>
         </div>
-        <footer className="p-4 text-center text-xs text-slate-400 dark:text-slate-500" role="contentinfo">
-          <p>&copy; {new Date().getFullYear()} {profileData.name}</p>
-        </footer>
+        <Footer />
       </aside>
     </>
   );
