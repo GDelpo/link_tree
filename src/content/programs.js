@@ -24,6 +24,7 @@ const PROGRAMS_CONFIG = {
     targetAudience: "Atletas que buscan mejorar ejercicios básicos y desarrollar masa muscular fuera de temporada",
     description: [
       "Rebuild es un programa diseñado para hacer fuera de la temporada deportiva, 4 o 5 veces por semana. Basado en los principios del entrenamiento, el objetivo principal es mejorar los ejercicios básicos (sentadilla, peso muerto, banco plano) y desarrollar la masa muscular, sin perder la condición atlética.",
+      "Rebuild incluye 4 estímulos de fuerza y 1 de velocidad, el cual se incorpora al programa luego de la primera fase.",
       "¿Sentís que no progresás en tus ejercicios básicos o en la ganancia de masa muscular? Con este programa, compuesto por trabajos de fuerza, hipertrofia y potencia, vamos a salir de lo tradicional y romper tu estancamiento."
     ],
     
@@ -36,8 +37,8 @@ const PROGRAMS_CONFIG = {
     frequency: "4 estímulos por semana",
     price: {
       options: {
-        "9weeks": { regular: { local: "$56.000", international: "U$40" } },
-        "12weeks": { regular: { local: "$70.000", international: "U$50" } },
+        "9weeks": { regular: { local: "$55.000", international: "U$50" } },
+        "12weeks": { regular: { local: "$72.000", international: "U$60" } },
       }
     },
     Icon: Dumbbell,
@@ -125,57 +126,23 @@ export const programsData = Object.keys(PROGRAMS_CONFIG).reduce((acc, key) => {
   acc[key] = createProgram(key, PROGRAMS_CONFIG[key]);
   return acc;
 }, {});
-
-// Datos para la sección de programas (compatibilidad con estructura existente)
-const rawPrograms = [
-  {
-    title: "REBUILD PROGRAM",
-    description: programsData["REBUILD PROGRAM"].shortDescription,
-    duration: programsData["REBUILD PROGRAM"].duration,
-    Icon: programsData["REBUILD PROGRAM"].Icon,
-    gradientClasses: programsData["REBUILD PROGRAM"].gradientClasses,
-  },
-  {
-    title: "BIGGER & ATHLETIC",
-    description: programsData["BIGGER & ATHLETIC"].shortDescription,
-    duration: programsData["BIGGER & ATHLETIC"].duration,
-    Icon: programsData["BIGGER & ATHLETIC"].Icon,
-    gradientClasses: programsData["BIGGER & ATHLETIC"].gradientClasses,
-  },
-  {
-    title: "SPEED LAB",
-    description: programsData["SPEED LAB"].shortDescription,
-    duration: programsData["SPEED LAB"].duration,
-    Icon: programsData["SPEED LAB"].Icon,
-    gradientClasses: programsData["SPEED LAB"].gradientClasses,
-  },
-  {
-    title: "STRENGHT & POWER IN SEASON",
-    description: programsData["STRENGHT & POWER IN SEASON"].shortDescription,
-    duration: programsData["STRENGHT & POWER IN SEASON"].duration,
-    Icon: programsData["STRENGHT & POWER IN SEASON"].Icon,
-    gradientClasses: programsData["STRENGHT & POWER IN SEASON"].gradientClasses,
-  },
-  {
-    title: "BEGINNER",
-    description: programsData["BEGINNER"].shortDescription,
-    duration: programsData["BEGINNER"].duration,
-    Icon: programsData["BEGINNER"].Icon,
-    gradientClasses: programsData["BEGINNER"].gradientClasses,
-  },
-];
-
 export const programsSectionData = {
   id: "programs-section",
   title: "Programas de Entrenamiento",
   icon: LayoutGrid,
   description: 'Explorá mis programas diseñados científicamente para ayudarte a alcanzar tus metas, sea cual sea tu nivel.',
-  content: rawPrograms.map((program, index) => ({
-    id: `prog-${index + 1}`,
-    ...program,
-    // Agregar referencia a datos detallados
-    detailedInfo: programsData[program.title] || null,
-  })),
+  content: Object.keys(PROGRAMS_CONFIG).map((key) => {
+    const p = programsData[key];
+    return {
+      id: p.id, // slug estable
+      title: key, // título corto para la card
+      description: p.shortDescription,
+      duration: p.duration,
+      Icon: p.Icon,
+      gradientClasses: p.gradientClasses,
+      detailedInfo: p, // objeto completo para el modal
+    };
+  }),
 };
 
 export default programsSectionData;

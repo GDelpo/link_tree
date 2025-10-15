@@ -149,3 +149,11 @@ Response shape (example):
 - 500 on `/api/instagram`: Ensure `INSTAGRAM_ACCESS_TOKEN` is set in Vercel and valid.
 - 404 on `/api/instagram` locally: Run `vercel dev` or mock data; Vite alone doesn’t serve API routes.
 - CORS issues: Shouldn’t occur when frontend and function are on the same domain (Vercel). If testing externally, keep same-origin.
+
+TODO
+
+Firebase Firestore para almacenar los datos de los programas.
+Firebase Auth para autenticación segura (puedes usar email/password, Google, etc.).
+Reglas de seguridad en Firestore para que solo usuarios autenticados y autorizados puedan editar.
+Panel de administración en React: solo accesible para usuarios autenticados, con CRUD de programas.
+App pública: solo lectura, sin acceso a edición.
