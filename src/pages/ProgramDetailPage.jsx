@@ -13,10 +13,8 @@ const ProgramDetailPage = () => {
   const navigate = useNavigate();
   const { isArgentina, isLoading: locationLoading } = useLocationContext();
 
-  // 1. Busca los datos del programa en la lista de tarjetas
   const programCardData = programsSectionData.content.find((p) => p.id === programId);
 
-  // 2. Redirige si no se encuentra el programa
   useEffect(() => {
     if (!programCardData) {
       navigate('/');
@@ -28,40 +26,55 @@ const ProgramDetailPage = () => {
     return getSmartPriceDisplay(priceStructure, isArgentina);
   };
 
-  // 3. Si no hay datos, no renderiza nada mientras redirige
   if (!programCardData) {
     return null;
   }
 
-  // 4. Extrae los datos detallados del programa
   const program = programCardData.detailedInfo;
 
   return (
-    <div>
+    <div className='bg-slate-50 dark:bg-black'>
+      {/* Encabezado Principal */}
       <PageHeader
-        title={programCardData.title}
+        title={program.title}
         subtitle={program.shortDescription}
         className={`bg-gradient-to-r ${program.gradientClasses} text-white`}
       />
-      <div className='-mt-8 mb-8 flex justify-center'>
-        <div className='flex flex-wrap gap-2 text-xs bg-white/20 rounded-lg p-2 backdrop-blur-sm'>
-          <div className='flex items-center gap-1 text-white rounded px-2 py-1'>
-            <Clock className='w-3 h-3' />
-            <span>{program.duration}</span>
-          </div>
-          <div className='flex items-center gap-1 text-white rounded px-2 py-1'>
-            <Users className='w-3 h-3' />
-            <span>{program.frequency}</span>
-          </div>
-          <div className='flex items-center gap-1 text-white rounded px-2 py-1'>
-            <CreditCard className='w-3 h-3' />
-            <span>{getPrimaryPrice(program.price)}</span>
+
+      {/* Barra de Estadísticas Rediseñada */}
+      <div className='-mt-16 mb-8'>
+        <div className='max-w-4xl mx-auto'>
+          <div className='bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg p-4 flex flex-wrap justify-center gap-4 sm:gap-8 text-center ring-1 ring-slate-200 dark:ring-slate-700'>
+            <StatItem icon={Clock} label='Duración' value={program.duration} />
+            <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
+            <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
           </div>
         </div>
       </div>
-      <ProgramDetailContent program={program} />
+
+      {/* Contenido Detallado del Programa */}
+      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16'>
+        <ProgramDetailContent program={program} />
+      </div>
     </div>
   );
+};
+
+// Componente para cada "Stat" para mantener el código limpio
+const StatItem = ({ icon: Icon, label, value }) => (
+  <div className='flex items-center gap-3'>
+    <Icon className='w-6 h-6 text-sky-500' />
+    <div>
+      <p className='text-xs text-slate-500 dark:text-slate-400 uppercase'>{label}</p>
+      <p className='font-bold text-sm text-slate-800 dark:text-slate-100'>{value}</p>
+    </div>
+  </div>
+);
+
+StatItem.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
 };
 
 ProgramDetailPage.propTypes = {

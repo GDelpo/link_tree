@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Componente para renderizar un encabezado de página estandarizado.
@@ -8,17 +9,33 @@ import React from 'react';
  *   className?: string
  * }} props
  */
-const PageHeader = ({ subtitle, title, className = 'text-center mb-12' }) => {
+const PageHeader = ({
+  subtitle,
+  title,
+  className = 'text-center pt-16 pb-12',
+}) => {
   return (
     <div className={className}>
-      <p className='text-sm uppercase text-slate-500 dark:text-slate-400'>
-        {subtitle}
-      </p>
-      <h2 className='text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white'>
-        {title}
-      </h2>
+      <div className='max-w-4xl mx-auto px-4'>
+        {subtitle && (
+          <p className='text-sm uppercase text-white/80 tracking-widest'>
+            {subtitle}
+          </p>
+        )}
+        {title && (
+          <h1 className='text-4xl sm:text-5xl font-extrabold text-white mt-2 break-words'>
+            {title}
+          </h1>
+        )}
+      </div>
     </div>
   );
+};
+
+PageHeader.propTypes = {
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default PageHeader;
