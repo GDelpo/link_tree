@@ -7,6 +7,7 @@ const FaqsPage = lazy(() => import('@pages/Faqs'));
 const LinksPage = lazy(() => import('@pages/Links'));
 const RedesPage = lazy(() => import('@pages/Redes'));
 const ProgramsPage = lazy(() => import('@pages/Programs'));
+const ProgramDetailPage = lazy(() => import('@pages/ProgramDetailPage'));
 
 // Página Home sin lazy loading (es simple y se necesita inmediatamente)
 import HomePage from '@pages/Home';
@@ -50,6 +51,12 @@ const mainRoutes = [
     component: ProgramsPage,
     title: 'Programas',
     nav: { text: 'Programas', icon: User },
+  },
+  {
+    id: 'programa',
+    path: '/programas/:programId',
+    component: ProgramDetailPage,
+    title: 'Detalle del Programa',
   },
   {
     id: 'faqs',
