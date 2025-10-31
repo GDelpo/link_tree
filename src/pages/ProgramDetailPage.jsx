@@ -32,14 +32,8 @@ const ProgramDetailPage = () => {
   const program = programCardData.detailedInfo;
 
   return (
-    <div className='bg-slate-50 dark:bg-zinc-900/90'>
+    <div>
       <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
-        <div className='flex items-center mb-8'>
-          <h1 className='text-4xl font-bold text-slate-800 dark:text-white'>
-            Programas
-          </h1>
-        </div>
-
         {/* Contenedor principal del programa */}
         <div className='dark:bg-slate-800/50 rounded-xl shadow-2xl overflow-hidden'>
           {/* Encabezado del Programa (Título y Stats) */}
