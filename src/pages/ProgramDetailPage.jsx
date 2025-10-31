@@ -42,7 +42,7 @@ const ProgramDetailPage = () => {
       />
 
       {/* Barra de Estadísticas Rediseñada */}
-      <div className='-mt-16 mb-8'>
+      <div className='-mt-10 mb-8'>
         <div className='max-w-4xl mx-auto'>
           <div className='bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg p-4 flex flex-wrap justify-center gap-4 sm:gap-8 text-center ring-1 ring-slate-200 dark:ring-slate-700'>
             <StatItem icon={Clock} label='Duración' value={program.duration} />
