@@ -36,37 +36,45 @@ const ProgramDetailPage = () => {
     <div className='bg-slate-50 dark:bg-black'>
       {/* Encabezado Principal */}
       <PageHeader
-        title={program.title}
-        subtitle={program.shortDescription}
-        className={`bg-gradient-to-r ${program.gradientClasses} text-white`}
+        title='Programas'
+        subtitle='Entrena a tu manera'
+        className='bg-slate-900 text-white text-center pt-16 pb-12'
       />
+      {/* Contenido Principal */}
+      <main className='-mt-16'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16'>
+          {/* Contenedor que simula el modal */}
+          <div className='bg-white dark:bg-slate-800 rounded-xl shadow-2xl overflow-hidden'>
+            {/* Encabezado del Programa (Título y Stats) */}
+            <div className={`p-6 sm:p-8 bg-gradient-to-r ${program.gradientClasses}`}>
+              <h1 className='text-3xl sm:text-4xl font-extrabold text-white'>{program.title}</h1>
+              <p className='text-white/80 mt-2'>{program.shortDescription}</p>
 
-      {/* Barra de Estadísticas Rediseñada */}
-      <div className='-mt-10 mb-8'>
-        <div className='max-w-4xl mx-auto'>
-          <div className='bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg p-4 flex flex-wrap justify-center gap-4 sm:gap-8 text-center ring-1 ring-slate-200 dark:ring-slate-700'>
-            <StatItem icon={Clock} label='Duración' value={program.duration} />
-            <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
-            <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
+              <div className='mt-6 flex flex-wrap justify-center gap-4 sm:gap-8 text-center'>
+                <StatItem icon={Clock} label='Duración' value={program.duration} />
+                <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
+                <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
+              </div>
+            </div>
+
+            {/* Contenido Detallado */}
+            <div className='p-6 sm:p-8'>
+              <ProgramDetailContent program={program} />
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Contenido Detallado del Programa */}
-      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16'>
-        <ProgramDetailContent program={program} />
-      </div>
+      </main>
     </div>
   );
 };
 
 // Componente para cada "Stat" para mantener el código limpio
 const StatItem = ({ icon: Icon, label, value }) => (
-  <div className='flex items-center gap-3'>
-    <Icon className='w-6 h-6 text-sky-500' />
+  <div className='flex items-center gap-3 text-white'>
+    <Icon className='w-6 h-6 text-white/80' />
     <div>
-      <p className='text-xs text-slate-500 dark:text-slate-400 uppercase'>{label}</p>
-      <p className='font-bold text-sm text-slate-800 dark:text-slate-100'>{value}</p>
+      <p className='text-xs uppercase opacity-80'>{label}</p>
+      <p className='font-bold text-sm'>{value}</p>
     </div>
   </div>
 );
