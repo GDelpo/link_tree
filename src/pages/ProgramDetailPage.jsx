@@ -12,27 +12,34 @@ const ProgramDetailPage = () => {
   const { programId } = useParams();
   const navigate = useNavigate();
   const { isArgentina, isLoading: locationLoading } = useLocationContext();
-  const program = programsSectionData.content.find((p) => p.id === programId);
 
+  // 1. Busca los datos del programa en la lista de tarjetas
+  const programCardData = programsSectionData.content.find((p) => p.id === programId);
+
+  // 2. Redirige si no se encuentra el programa
   useEffect(() => {
-    if (!program) {
+    if (!programCardData) {
       navigate('/');
     }
-  }, [program, navigate]);
+  }, [programCardData, navigate]);
 
   const getPrimaryPrice = (priceStructure) => {
     if (locationLoading) return 'Detectando precio...';
     return getSmartPriceDisplay(priceStructure, isArgentina);
   };
 
-  if (!program) {
+  // 3. Si no hay datos, no renderiza nada mientras redirige
+  if (!programCardData) {
     return null;
   }
+
+  // 4. Extrae los datos detallados del programa
+  const program = programCardData.detailedInfo;
 
   return (
     <div>
       <PageHeader
-        title={program.title}
+        title={programCardData.title}
         subtitle={program.shortDescription}
         className={`bg-gradient-to-r ${program.gradientClasses} text-white`}
       />
