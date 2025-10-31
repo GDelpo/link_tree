@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { programsSectionData } from '@content';
 import ProgramDetailContent from '@components/data/ProgramDetailContent';
-import PageHeader from '@components/layout/PageHeader';
 import { Clock, Users, CreditCard } from 'lucide-react';
 import { getSmartPriceDisplay } from '@/utils/programUtils.js';
 import { useLocationContext } from '@contexts/LocationContext.jsx';
@@ -33,37 +32,32 @@ const ProgramDetailPage = () => {
   const program = programCardData.detailedInfo;
 
   return (
-    <div className='bg-slate-50 dark:bg-black'>
-      {/* Encabezado Principal */}
-      <PageHeader
-        title='Programas'
-        subtitle='Entrena a tu manera'
-        className='bg-slate-900 text-white text-center pt-16 pb-12'
-      />
-      {/* Contenido Principal */}
-      <main className='-mt-16'>
-        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16'>
-          {/* Contenedor que simula el modal */}
-          <div className='bg-white dark:bg-slate-800 rounded-xl shadow-2xl overflow-hidden'>
-            {/* Encabezado del Programa (Título y Stats) */}
-            <div className={`p-6 sm:p-8 bg-gradient-to-r ${program.gradientClasses}`}>
-              <h1 className='text-3xl sm:text-4xl font-extrabold text-white'>{program.title}</h1>
-              <p className='text-white/80 mt-2'>{program.shortDescription}</p>
+    <div className='bg-slate-50 dark:bg-zinc-900/90'>
+      <div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
+        <div className='flex items-center mb-8'>
+          <h1 className='text-4xl font-bold text-slate-800 dark:text-white'>
+            Programas
+          </h1>
+        </div>
 
-              <div className='mt-6 flex flex-wrap justify-center gap-4 sm:gap-8 text-center'>
-                <StatItem icon={Clock} label='Duración' value={program.duration} />
-                <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
-                <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
-              </div>
-            </div>
+        {/* Contenedor principal del programa */}
+        <div className='dark:bg-slate-800/50 rounded-xl shadow-2xl overflow-hidden'>
+          {/* Encabezado del Programa (Título y Stats) */}
+          <div className={`p-6 sm:p-8 bg-gradient-to-r ${program.gradientClasses}`}>
+            <h2 className='text-3xl sm:text-4xl font-extrabold text-white'>{program.title}</h2>
+            <p className='text-white/80 mt-2'>{program.shortDescription}</p>
 
-            {/* Contenido Detallado */}
-            <div className='p-6 sm:p-8'>
-              <ProgramDetailContent program={program} />
+            <div className='mt-6 flex flex-wrap justify-center gap-4 sm:gap-8 text-center'>
+              <StatItem icon={Clock} label='Duración' value={program.duration} />
+              <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
+              <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
             </div>
           </div>
+
+          {/* Contenido Detallado */}
+          <ProgramDetailContent program={program} />
         </div>
-      </main>
+      </div>
     </div>
   );
 };

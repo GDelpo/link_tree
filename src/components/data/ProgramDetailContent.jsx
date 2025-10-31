@@ -423,9 +423,9 @@ ContactButtons.propTypes = {
 const ProgramDetailContent = ({ program }) => {
     if (!program) return null;
   return (
-    <div className='p-6 space-y-8'>
+    <div className='space-y-8'>
       {/* Target Audience */}
-      <section aria-labelledby='target-heading'>
+      <section aria-labelledby='target-heading' className='px-6 pt-6'>
         <h3
           id='target-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2'
@@ -439,7 +439,7 @@ const ProgramDetailContent = ({ program }) => {
       </section>
 
       {/* Description */}
-      <section aria-labelledby='description-heading'>
+      <section aria-labelledby='description-heading' className='px-6'>
         <h3
           id='description-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-3'
@@ -459,7 +459,7 @@ const ProgramDetailContent = ({ program }) => {
       </section>
 
       {/* Access & Platform */}
-      <section aria-labelledby='access-heading'>
+      <section aria-labelledby='access-heading' className='px-6'>
         <h3
           id='access-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2'
@@ -484,7 +484,7 @@ const ProgramDetailContent = ({ program }) => {
       </section>
 
       {/* Equipment */}
-      <section aria-labelledby='equipment-heading'>
+      <section aria-labelledby='equipment-heading' className='px-6'>
         <h3
           id='equipment-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2'
@@ -507,7 +507,7 @@ const ProgramDetailContent = ({ program }) => {
 
       {/* Bonus Features */}
       {program.bonusFeatures && program.bonusFeatures.length > 0 && (
-        <section aria-labelledby='bonus-heading'>
+        <section aria-labelledby='bonus-heading' className='px-6'>
           <h3
             id='bonus-heading'
             className='text-xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2'
@@ -534,7 +534,7 @@ const ProgramDetailContent = ({ program }) => {
       )}
 
       {/* Smart Pricing Section */}
-      <section aria-labelledby='pricing-heading'>
+      <section aria-labelledby='pricing-heading' className='px-6'>
         <h3
           id='pricing-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2'
@@ -554,7 +554,7 @@ const ProgramDetailContent = ({ program }) => {
       </section>
 
       {/* Smart Payment & Contact Section */}
-      <section aria-labelledby='payment-heading'>
+      <section aria-labelledby='payment-heading' className='px-6 pb-6'>
         <h3
           id='payment-heading'
           className='text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2'
