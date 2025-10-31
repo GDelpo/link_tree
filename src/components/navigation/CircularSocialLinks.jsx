@@ -2,13 +2,13 @@ import React from 'react';
 
 const CircularSocialLinks = ({ links }) => {
   return (
-    <div className="flex justify-center md:justify-start gap-3">
+    <div className='flex justify-center md:justify-start gap-3'>
       {links.map(({ name, url, Icon, hoverClass }) => (
         <a
           key={name}
           href={url}
-          target="_blank"
-          rel="noopener noreferrer"
+          target='_blank'
+          rel='noopener noreferrer'
           aria-label={name}
           className={`
             w-11 h-11 bg-slate-200 dark:bg-slate-800 
@@ -19,7 +19,7 @@ const CircularSocialLinks = ({ links }) => {
             ${hoverClass}
           `}
         >
-          <Icon className="w-5 h-5" />
+          <Icon className='w-5 h-5' />
         </a>
       ))}
     </div>

@@ -12,12 +12,16 @@ const YOUTUBE_BASE_URL = 'https://www.googleapis.com/youtube/v3';
  */
 export async function getLatestYouTubeVideos(maxResults = 5) {
   if (!YOUTUBE_API_KEY) {
-    console.error("YOUTUBE_API_KEY no está configurada en las variables de entorno.");
-    throw new Error("Falta la clave de API de YouTube.");
+    console.error(
+      'YOUTUBE_API_KEY no está configurada en las variables de entorno.'
+    );
+    throw new Error('Falta la clave de API de YouTube.');
   }
   if (!YOUTUBE_CHANNEL_ID) {
-    console.error("YOUTUBE_CHANNEL_ID no está configurada en las variables de entorno.");
-    throw new Error("Falta el ID del canal de YouTube.");
+    console.error(
+      'YOUTUBE_CHANNEL_ID no está configurada en las variables de entorno.'
+    );
+    throw new Error('Falta el ID del canal de YouTube.');
   }
 
   const url = new URL(`${YOUTUBE_BASE_URL}/search`);
@@ -30,7 +34,7 @@ export async function getLatestYouTubeVideos(maxResults = 5) {
 
   try {
     const data = await apiClient(url.toString());
-    return data.items.map(item => ({
+    return data.items.map((item) => ({
       id: item.id.videoId,
       title: item.snippet.title,
       description: item.snippet.description,
@@ -40,7 +44,7 @@ export async function getLatestYouTubeVideos(maxResults = 5) {
       videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
     }));
   } catch (error) {
-    console.error("Error al obtener videos de YouTube:", error);
+    console.error('Error al obtener videos de YouTube:', error);
     throw error;
   }
 }

@@ -27,7 +27,7 @@ const FloatingActionButton = ({
   position = 'bottom-8',
   className = '',
   focusRingColor = 'focus:ring-sky-500',
-  description = ''
+  description = '',
 }) => {
   const buttonClasses = `
     fixed ${position} right-8 z-50 flex h-12 w-12 items-center justify-center 
@@ -38,9 +38,9 @@ const FloatingActionButton = ({
 
   const content = (
     <>
-      <AnimatedGradient variant="custom" customGradient={gradientColors} />
-      <Icon size={24} className="relative z-10 text-white" aria-hidden="true" />
-      {description && <span className="sr-only">{description}</span>}
+      <AnimatedGradient variant='custom' customGradient={gradientColors} />
+      <Icon size={24} className='relative z-10 text-white' aria-hidden='true' />
+      {description && <span className='sr-only'>{description}</span>}
     </>
   );
 
@@ -56,8 +56,8 @@ const FloatingActionButton = ({
           {href ? (
             <a
               href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target='_blank'
+              rel='noopener noreferrer'
               className={buttonClasses}
               aria-label={ariaLabel}
             >

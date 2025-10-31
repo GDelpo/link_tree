@@ -17,7 +17,10 @@ export const useFocusManagement = () => {
    * Restaura el focus al elemento previamente guardado
    */
   const restoreFocus = () => {
-    if (lastFocusedElement.current && typeof lastFocusedElement.current.focus === 'function') {
+    if (
+      lastFocusedElement.current &&
+      typeof lastFocusedElement.current.focus === 'function'
+    ) {
       lastFocusedElement.current.focus();
     }
   };
@@ -52,7 +55,7 @@ export const useFocusManagement = () => {
     };
 
     containerRef.current.addEventListener('keydown', handleTabKey);
-    
+
     // Focus el primer elemento al abrir
     if (firstElement) {
       firstElement.focus();
@@ -78,7 +81,10 @@ export const useKeyboardNavigation = (items, onSelect) => {
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        currentIndex.current = Math.min(currentIndex.current + 1, items.length - 1);
+        currentIndex.current = Math.min(
+          currentIndex.current + 1,
+          items.length - 1
+        );
         focusItem(currentIndex.current);
         break;
       case 'ArrowUp':
@@ -126,9 +132,9 @@ export const useScreenReader = () => {
     announcer.setAttribute('aria-atomic', 'true');
     announcer.className = 'sr-only';
     announcer.textContent = message;
-    
+
     document.body.appendChild(announcer);
-    
+
     // Remover después de que el screen reader lo lea
     setTimeout(() => {
       document.body.removeChild(announcer);

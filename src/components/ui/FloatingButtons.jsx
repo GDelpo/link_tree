@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FloatingActionButton from '@components/ui/FloatingActionButton';
 import { SiWhatsapp } from '@icons-pack/react-simple-icons';
 import { ArrowUp } from 'lucide-react';
-import { EMERALD_GRADIENT_CLASSES, SKY_GRADIENT_CLASSES } from '@/utils/constants';
+import {
+  EMERALD_GRADIENT_CLASSES,
+  SKY_GRADIENT_CLASSES,
+} from '@/utils/constants';
 import { WHATSAPP_PHONE } from '@content/contact';
 
 const FloatingButtons = () => {
@@ -40,10 +43,10 @@ const FloatingButtons = () => {
         href={whatsappUrl}
         icon={SiWhatsapp}
         gradientColors={EMERALD_GRADIENT_CLASSES}
-        ariaLabel="Contactar por WhatsApp"
+        ariaLabel='Contactar por WhatsApp'
         position={positionClass}
-        focusRingColor="focus:ring-green-500"
-        description="Abrir conversación de WhatsApp en una nueva pestaña"
+        focusRingColor='focus:ring-green-500'
+        description='Abrir conversación de WhatsApp en una nueva pestaña'
       />
 
       {/* Scroll to top */}
@@ -52,9 +55,9 @@ const FloatingButtons = () => {
         onClick={scrollToTop}
         icon={ArrowUp}
         gradientColors={SKY_GRADIENT_CLASSES}
-        ariaLabel="Volver al inicio de la página"
-        focusRingColor="focus:ring-sky-500"
-        description="Hacer clic para desplazarse al inicio de la página"
+        ariaLabel='Volver al inicio de la página'
+        focusRingColor='focus:ring-sky-500'
+        description='Hacer clic para desplazarse al inicio de la página'
       />
     </>
   );

@@ -7,7 +7,8 @@ import { linksNavItems } from '@config/pageSections'; // Importamos los navLinks
 import Footer from '@components/layout/Footer';
 import FloatingButtons from '@components/ui/FloatingButtons';
 import { useDocumentTitle } from '@hooks/useDocumentTitle';
-import { routeConfig } from '@config/routes';
+import { allRoutes } from '@config/routes';
+import PropTypes from 'prop-types';
 
 /**
  * Layout simple que consiste en una barra de navegación superior y el contenido de la página.
@@ -21,30 +22,41 @@ const SimpleLayout = () => {
   const navLinks = linksNavItems;
 
   // Hook para detectar la sección activa en el scroll y pasarla a la Navbar.
-  const activeSection = useActiveSection(navLinks.map(link => link.id));
-  
+  const activeSection = useActiveSection(navLinks.map((link) => link.id));
+
   // Obtener la ruta actual y establecer el título dinámico
   const location = useLocation();
-  const currentRoute = routeConfig.find(route => route.path === location.pathname);
+  const currentRoute = allRoutes.find(
+    (route) => route.path === location.pathname
+  );
   const pageTitle = currentRoute?.title || 'Links';
-  
+
   // Usar el hook para actualizar el título del documento
   useDocumentTitle(pageTitle);
 
   return (
-    <div className="font-sans text-slate-800 dark:text-slate-200 transition-colors duration-300">
+    <div className='font-sans text-slate-800 dark:text-slate-200 transition-colors duration-300'>
       <SkipLink />
       {/* Fondo con gradiente sutil, consistente con MainLayout */}
-      <div className="fixed inset-0 -z-10 h-full w-full bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-black transition-colors duration-300"></div>
+      <div className='fixed inset-0 -z-10 h-full w-full bg-slate-50 dark:bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-900 dark:to-black transition-colors duration-300'></div>
       <Navbar navLinks={navLinks} activeSection={activeSection} />
-      <main id="main-content" role="main" tabIndex="-1" className="w-full max-w-4xl px-4 pt-16 mx-auto sm:px-6 lg:px-8">
+      <main
+        id='main-content'
+        role='main'
+        tabIndex='-1'
+        className='w-full max-w-4xl px-4 pt-16 mx-auto sm:px-6 lg:px-8'
+      >
         {/* El Outlet ahora recibe el contexto de la ruta */}
         <Outlet />
       </main>
       <Footer />
-      <FloatingButtons />  
+      <FloatingButtons />
     </div>
   );
+};
+
+SimpleLayout.propTypes = {
+  navItems: PropTypes.array,
 };
 
 export default SimpleLayout;

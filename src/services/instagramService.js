@@ -11,7 +11,7 @@ export async function getInstagramPosts(limit = 6) {
     const data = await apiClient(`/api/instagram?limit=${limit}`);
     return data;
   } catch (error) {
-    console.error("Error al obtener los posts de Instagram:", error);
+    console.error('Error al obtener los posts de Instagram:', error);
     throw error;
   }
 }

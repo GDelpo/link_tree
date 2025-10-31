@@ -7,6 +7,7 @@ import ProgramsSection from '@components/data/ProgramsSection';
 import PersonalizedPlanCTA from '@components/data/PersonalizedPlanCTA';
 import Accordion from '@components/data/Accordion';
 import InstagramSection from '@components/data/InstagramSection';
+import PropTypes from 'prop-types';
 
 import {
   programsSectionData,
@@ -18,17 +19,29 @@ import {
 /**
  * Componente para renderizar una sección completa de la página de Links.
  * Abstrae la lógica de qué componente renderizar para cada tipo de sección.
- * @param {{ section: object }} props
  */
 const SectionRenderer = ({ section }) => {
-  const { id, type, title, icon, description, className, contentCardClassName } = section;
+  const {
+    id,
+    type,
+    title,
+    icon,
+    description,
+    className,
+    contentCardClassName,
+  } = section;
 
   const renderContent = () => {
     switch (type) {
       case 'programs':
         return <ProgramsSection programs={programsSectionData.content} />;
       case 'contact':
-        return <PersonalizedPlanCTA ctaData={personalizedPlanCtaData} contactLink={personalizedPlanLink} />;
+        return (
+          <PersonalizedPlanCTA
+            ctaData={personalizedPlanCtaData}
+            contactLink={personalizedPlanLink}
+          />
+        );
       case 'instagram':
         return <InstagramSection limit={3} />;
       case 'faq':
@@ -42,9 +55,7 @@ const SectionRenderer = ({ section }) => {
   if (type === 'contact') {
     return (
       <PageSection id={id} className={className}>
-        <AnimatedSection>
-          {renderContent()}
-        </AnimatedSection>
+        <AnimatedSection>{renderContent()}</AnimatedSection>
       </PageSection>
     );
   }
@@ -55,13 +66,27 @@ const SectionRenderer = ({ section }) => {
         <ContentCard className={contentCardClassName}>
           <SectionTitle icon={icon}>{title}</SectionTitle>
           {description && (
-            <p className="text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0">{description}</p>
+            <p className='text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0'>
+              {description}
+            </p>
           )}
           {renderContent()}
         </ContentCard>
       </AnimatedSection>
     </PageSection>
   );
+};
+
+SectionRenderer.propTypes = {
+  section: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    icon: PropTypes.elementType,
+    description: PropTypes.string,
+    className: PropTypes.string,
+    contentCardClassName: PropTypes.string,
+  }).isRequired,
 };
 
 export default SectionRenderer;

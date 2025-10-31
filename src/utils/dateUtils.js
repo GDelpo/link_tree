@@ -10,7 +10,10 @@ export function calcularEdad(fechaNacimiento) {
   let edad = hoy.getFullYear() - fechaNac.getFullYear();
   const mesActual = hoy.getMonth();
   const diaActual = hoy.getDate();
-  if (mesActual < fechaNac.getMonth() || (mesActual === fechaNac.getMonth() && diaActual < fechaNac.getDate())) {
+  if (
+    mesActual < fechaNac.getMonth() ||
+    (mesActual === fechaNac.getMonth() && diaActual < fechaNac.getDate())
+  ) {
     edad--;
   }
   return edad;

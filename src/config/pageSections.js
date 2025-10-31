@@ -29,7 +29,8 @@ export const pageSectionsConfig = [
     type: 'instagram',
     navText: 'Instagram',
     title: 'Últimos Posts en Instagram',
-    description: 'Explorá mis publicaciones recientes en Instagram. Para ver más contenido, visitá mi perfil.', 
+    description:
+      'Explorá mis publicaciones recientes en Instagram. Para ver más contenido, visitá mi perfil.',
     icon: SiInstagram,
     className: 'w-full overflow-x-hidden',
     contentCardClassName: GLASS_CARD_CLASSES,
@@ -57,4 +58,6 @@ export const pageSectionsConfig = [
  * Transforma la configuración de secciones en una lista de enlaces para la Navbar.
  * Esto evita que la lógica de transformación esté dentro del componente Links.jsx.
  */
-export const linksNavItems = pageSectionsConfig.map(({ id, navText, icon }) => ({ id, text: navText, icon }));
+export const linksNavItems = pageSectionsConfig.map(
+  ({ id, navText, icon }) => ({ id, text: navText, icon })
+);
