@@ -18,17 +18,25 @@ const API_CONFIG = {
  * @throws {Error} - Lanza un error si la respuesta no es exitosa o hay un problema de red.
  */
 export async function apiClient(url, options = {}) {
-  const config = { ...API_CONFIG, ...options, headers: { ...API_CONFIG.headers, ...options.headers } };
+  const config = {
+    ...API_CONFIG,
+    ...options,
+    headers: { ...API_CONFIG.headers, ...options.headers },
+  };
 
   try {
     const response = await fetch(url, config);
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: response.statusText }));
-      throw new Error(`API Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: response.statusText }));
+      throw new Error(
+        `API Error: ${response.status} - ${errorData.message || 'Unknown error'}`
+      );
     }
     return await response.json();
   } catch (error) {
-    console.error("Error en la llamada a la API:", error);
+    console.error('Error en la llamada a la API:', error);
     throw error; // Re-lanza el error para que el componente o hook que llama lo maneje
   }
 }

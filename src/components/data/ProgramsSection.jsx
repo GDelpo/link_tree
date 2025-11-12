@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import ProgramCard from '@components/data/ProgramCard';
 import ProgramDetailModal from '@components/data/ProgramDetailModal';
+import PropTypes from 'prop-types';
 
 /**
  * Renderiza una lista de tarjetas de programas y maneja el estado del modal.
  * El modal se renderiza fuera del contenedor para evitar problemas de z-index.
- * @param {{ programs: Array<Object> }} props
  */
 const ProgramsSection = ({ programs = [] }) => {
   const [modalProgram, setModalProgram] = useState(null);
@@ -20,16 +20,16 @@ const ProgramsSection = ({ programs = [] }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4 pt-4">
+      <div className='flex flex-col gap-4 pt-4'>
         {programs.map((program) => (
-          <ProgramCard 
-            key={program.id} 
+          <ProgramCard
+            key={program.id}
             {...program}
             onOpenModal={handleOpenModal}
           />
         ))}
       </div>
-      
+
       {/* Modal renderizado fuera del contenedor flex */}
       <ProgramDetailModal
         program={modalProgram}
@@ -38,6 +38,10 @@ const ProgramsSection = ({ programs = [] }) => {
       />
     </>
   );
+};
+
+ProgramsSection.propTypes = {
+  programs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ProgramsSection;

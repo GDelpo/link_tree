@@ -3,14 +3,17 @@
  */
 
 // Clases para tarjetas de contenido con efecto vidrio
-export const GLASS_CARD_CLASSES = 'bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300';
+export const GLASS_CARD_CLASSES =
+  'bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg ring-1 ring-slate-900/5 overflow-hidden transition-colors duration-300';
 
 // Clases base para animaciones de entrada
-export const FADE_IN_CLASSES = 'opacity-0 translate-y-8 transition-all duration-1000 ease-in-out';
+export const FADE_IN_CLASSES =
+  'opacity-0 translate-y-8 transition-all duration-1000 ease-in-out';
 export const FADE_IN_ACTIVE_CLASSES = 'opacity-100 translate-y-0';
 
 // Clases para gradientes comunes
-export const SKY_GRADIENT_CLASSES = 'from-sky-600 to-cyan-600 dark:from-sky-600 dark:to-cyan-600';
+export const SKY_GRADIENT_CLASSES =
+  'from-sky-600 to-cyan-600 dark:from-sky-600 dark:to-cyan-600';
 export const EMERALD_GRADIENT_CLASSES = 'from-emerald-500 to-green-600';
 
 // Clases para contenedores principales

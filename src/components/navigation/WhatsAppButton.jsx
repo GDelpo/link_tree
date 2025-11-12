@@ -13,7 +13,7 @@ const WhatsAppButton = ({ isPushedUp }) => {
     }, 2000); // Sigue apareciendo a los 2 segundos
     return () => clearTimeout(timer);
   }, []);
-  
+
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}`;
   const positionClass = isPushedUp ? 'bottom-24' : 'bottom-8';
 
@@ -23,10 +23,10 @@ const WhatsAppButton = ({ isPushedUp }) => {
       href={whatsappUrl}
       icon={SiWhatsapp}
       gradientColors={EMERALD_GRADIENT_CLASSES}
-      ariaLabel="Contactar por WhatsApp"
+      ariaLabel='Contactar por WhatsApp'
       position={positionClass}
-      focusRingColor="focus:ring-green-500"
-      description="Abrir conversación de WhatsApp en una nueva pestaña"
+      focusRingColor='focus:ring-green-500'
+      description='Abrir conversación de WhatsApp en una nueva pestaña'
     />
   );
 };

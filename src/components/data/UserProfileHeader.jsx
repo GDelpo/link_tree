@@ -2,26 +2,31 @@ import React, { memo } from 'react';
 import MorphingAvatar from '@components/ui/MorphingAvatar';
 import ProfileInfo from '@components/data/ProfileInfo';
 import CircularSocialLinks from '@components/navigation/CircularSocialLinks';
+import PropTypes from 'prop-types';
 
 const UserProfileHeader = memo(({ profileData }) => {
   return (
-    <section className="max-w-4xl w-full" aria-labelledby="profile-heading">
-      <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-8 md:gap-12">
+    <section className='max-w-4xl w-full' aria-labelledby='profile-heading'>
+      <div className='flex flex-col md:flex-row items-center text-center md:text-left gap-8 md:gap-12'>
         {/* Avatar del perfil */}
-        <div className="flex-shrink-0 w-48 h-48 md:w-56 md:h-56" role="img" aria-label="Foto de perfil">
+        <div
+          className='flex-shrink-0 w-48 h-48 md:w-56 md:h-56'
+          role='img'
+          aria-label='Foto de perfil'
+        >
           <MorphingAvatar imageUrl={profileData.profileImage} />
         </div>
-        
+
         {/* Información del perfil */}
-        <div className="flex flex-col">
+        <div className='flex flex-col'>
           <ProfileInfo
             name={profileData.name}
             titles={profileData.titles}
             description={profileData.description}
           />
-          
+
           {/* Enlaces sociales */}
-          <nav className="mt-6" aria-label="Enlaces de redes sociales">
+          <nav className='mt-6' aria-label='Enlaces de redes sociales'>
             <CircularSocialLinks links={profileData.socials} />
           </nav>
         </div>
@@ -29,5 +34,17 @@ const UserProfileHeader = memo(({ profileData }) => {
     </section>
   );
 });
+
+UserProfileHeader.displayName = 'UserProfileHeader';
+
+UserProfileHeader.propTypes = {
+  profileData: PropTypes.shape({
+    profileImage: PropTypes.string,
+    name: PropTypes.string,
+    titles: PropTypes.arrayOf(PropTypes.string),
+    description: PropTypes.string,
+    socials: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+};
 
 export default UserProfileHeader;

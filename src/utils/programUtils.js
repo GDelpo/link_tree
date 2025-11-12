@@ -49,7 +49,10 @@ export const createProgram = (key, config) => {
     access: config.access || STANDARD_ACCESS,
     equipment: config.equipment || BASIC_EQUIPMENT,
     bonusFeatures: config.bonusFeatures || [STANDARD_BONUS],
-    paymentMethods: config.paymentMethods || { local: ['Transferencia'], international: ['PayPal'] },
+    paymentMethods: config.paymentMethods || {
+      local: ['Transferencia'],
+      international: ['PayPal'],
+    },
     ...(config.specialNote && { specialNote: config.specialNote }),
   };
 };
@@ -63,13 +66,20 @@ export const normalizePrice = (price) => {
 
   const options = {};
 
-  const looksLikeSimple = typeof price.local === 'string' || typeof price.international === 'string';
-  const topHasBands = price.regular || price.launch || price.special || price.specialOffer;
+  const looksLikeSimple =
+    typeof price.local === 'string' || typeof price.international === 'string';
+  const topHasBands =
+    price.regular || price.launch || price.special || price.specialOffer;
 
   if (looksLikeSimple || topHasBands) {
     options.default = {
-      regular: price.regular || (looksLikeSimple ? { local: price.local, international: price.international } : undefined),
-      specialOffer: price.specialOffer || price.launch || price.special || undefined,
+      regular:
+        price.regular ||
+        (looksLikeSimple
+          ? { local: price.local, international: price.international }
+          : undefined),
+      specialOffer:
+        price.specialOffer || price.launch || price.special || undefined,
     };
     return { options };
   }
@@ -77,9 +87,17 @@ export const normalizePrice = (price) => {
   // Assume keys are options like '9weeks', '12weeks'
   Object.entries(price).forEach(([key, val]) => {
     if (!val || typeof val !== 'object') return;
-    const regular = val.regular || (val.local || val.international ? { local: val.local, international: val.international } : undefined);
-    const specialOffer = val.specialOffer || val.launch || val.special || undefined;
-    options[key] = { ...(regular ? { regular } : {}), ...(specialOffer ? { specialOffer } : {}) };
+    const regular =
+      val.regular ||
+      (val.local || val.international
+        ? { local: val.local, international: val.international }
+        : undefined);
+    const specialOffer =
+      val.specialOffer || val.launch || val.special || undefined;
+    options[key] = {
+      ...(regular ? { regular } : {}),
+      ...(specialOffer ? { specialOffer } : {}),
+    };
   });
 
   return { options };
@@ -109,7 +127,9 @@ export const getSmartPriceDisplay = (priceStructure, isArgentina) => {
   if (keys.length === 1) {
     const only = options[keys[0]];
     const band = only.specialOffer || only.regular || {};
-    const val = isArgentina ? (band.local || band.international) : (band.international || band.local);
+    const val = isArgentina
+      ? band.local || band.international
+      : band.international || band.local;
     return `${flag} ${val || 'Consultar precio'}`;
   }
   return `${flag} Desde ${getSmartPrice(priceStructure, isArgentina)}`;

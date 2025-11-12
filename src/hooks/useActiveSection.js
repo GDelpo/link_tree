@@ -7,7 +7,8 @@ import { useState, useEffect, useRef } from 'react';
  * @returns {string | null} El ID de la sección activa.
  */
 export const useActiveSection = (sectionIds, options = {}) => {
-  const { headerOffset = 64 } = typeof options === 'number' ? { headerOffset: options } : options;
+  const { headerOffset = 64 } =
+    typeof options === 'number' ? { headerOffset: options } : options;
 
   const [activeSection, setActiveSection] = useState(null);
   const activeRef = useRef(null);
@@ -23,7 +24,9 @@ export const useActiveSection = (sectionIds, options = {}) => {
 
     const computeActive = () => {
       // Si estamos al fondo del documento, forzar la última sección como activa
-      const atBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+      const atBottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight;
       if (atBottom) return sectionIds[sectionIds.length - 1] || null;
 
       // Elegir la última sección cuyo top esté por encima del header sticky
@@ -60,7 +63,8 @@ export const useActiveSection = (sectionIds, options = {}) => {
       activeRef.current = hashId;
       setActiveSection(hashId);
     } else {
-      const initial = (typeof window !== 'undefined') ? computeActive() : sectionIds[0] || null;
+      const initial =
+        typeof window !== 'undefined' ? computeActive() : sectionIds[0] || null;
       activeRef.current = initial;
       setActiveSection(initial);
     }

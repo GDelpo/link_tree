@@ -10,7 +10,7 @@ import { useInView } from 'react-intersection-observer';
 const PageSection = memo(({ id, className = '', children }) => {
   const { ref, inView } = useInView({
     triggerOnce: true, // La animación solo se dispara una vez
-    threshold: 0.1,    // Se activa cuando el 10% del componente es visible
+    threshold: 0.1, // Se activa cuando el 10% del componente es visible
   });
 
   return (

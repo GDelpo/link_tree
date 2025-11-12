@@ -10,10 +10,10 @@ import { HelpCircle } from 'lucide-react';
 const faqAccordionItems = faqData.map((item) => ({
   ...item,
   collapsibleContent: (
-    <p className="text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4 px-1">
+    <p className='text-slate-600 dark:text-slate-400 leading-relaxed pt-2 pb-4 px-1'>
       {item.collapsibleContent}
     </p>
-  )
+  ),
 }));
 
 /**
@@ -23,12 +23,17 @@ const faqAccordionItems = faqData.map((item) => ({
 const Faqs = () => {
   return (
     <>
-      <PageHeader subtitle="Resolvé tus dudas" title="Preguntas Frecuentes" />
+      <PageHeader subtitle='Resolvé tus dudas' title='Preguntas Frecuentes' />
       <PageContainer>
         {/* --- SECCIÓN DE FAQ --- */}
-        <div id="faqs">
-          <SectionTitle icon={HelpCircle}>{'Preguntas Frecuentes'}</SectionTitle>
-          <p className="text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0">Encontrá respuestas a las dudas más comunes sobre mis servicios y metodología.</p>
+        <div id='faqs'>
+          <SectionTitle icon={HelpCircle}>
+            {'Preguntas Frecuentes'}
+          </SectionTitle>
+          <p className='text-sm text-slate-500 dark:text-slate-400 -mt-2 mb-2 px-4 sm:px-0'>
+            Encontrá respuestas a las dudas más comunes sobre mis servicios y
+            metodología.
+          </p>
           <Accordion items={faqAccordionItems} />
         </div>
       </PageContainer>

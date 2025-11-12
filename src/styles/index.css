@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -56,11 +56,17 @@ html {
   *:focus {
     outline: 3px solid;
   }
-  
+
   /* Mejorar contraste en modo de alto contraste */
-  .text-sky-500 { color: #0369a1 !important; } /* sky-700 para mejor contraste */
-  .bg-sky-500 { background-color: #0284c7 !important; } /* sky-600 */
-  .hover\:bg-sky-500:hover { background-color: #0369a1 !important; } /* sky-700 */
+  .text-sky-500 {
+    color: #0369a1 !important;
+  } /* sky-700 para mejor contraste */
+  .bg-sky-500 {
+    background-color: #0284c7 !important;
+  } /* sky-600 */
+  .hover\:bg-sky-500:hover {
+    background-color: #0369a1 !important;
+  } /* sky-700 */
 }
 
 /* Mejoras de contraste específicas para accesibilidad */
@@ -76,12 +82,12 @@ html {
     --sky-interactive: #0369a1;
     --sky-interactive-hover: #075985;
   }
-  
+
   .text-sky-500,
   .hover\:text-sky-500:hover {
     color: var(--sky-interactive) !important;
   }
-  
+
   .bg-sky-500,
   .hover\:bg-sky-500:hover {
     background-color: var(--sky-interactive) !important;
@@ -94,14 +100,14 @@ html {
   .scroll-smooth {
     scroll-behavior: auto !important;
   }
-  
+
   /* Deshabilitamos transiciones largas pero permitimos el avatar */
   .transition-all,
   .transition-colors,
   .transition-transform {
     transition-duration: 0.01ms !important;
   }
-  
+
   /* Solo deshabilitamos el avatar si el usuario realmente lo prefiere */
   .avatar-morph {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40% !important;
