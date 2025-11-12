@@ -38,10 +38,21 @@ const ProgramDetailPage = () => {
         <div className='dark:bg-slate-800/50 rounded-xl shadow-2xl overflow-hidden'>
           {/* Encabezado del Programa (Título y Stats) */}
           <div className={`p-6 sm:p-8 bg-gradient-to-r ${program.gradientClasses}`}>
-            <h2 className='text-3xl sm:text-4xl font-extrabold text-white'>{program.title}</h2>
-            <p className='text-white/80 mt-2'>{program.shortDescription}</p>
+            <div className='flex items-center gap-4'>
+              {program.Icon && (
+                <div className='p-3 bg-white/20 rounded-lg backdrop-blur-sm'>
+                  <program.Icon className='w-8 h-8 text-white' />
+                </div>
+              )}
+              <div>
+                <h2 className='text-3xl sm:text-4xl font-extrabold text-white'>
+                  {program.emoji} {program.title}
+                </h2>
+                <p className='text-white/80 mt-1'>{program.shortDescription}</p>
+              </div>
+            </div>
 
-            <div className='mt-6 flex flex-wrap justify-center gap-4 sm:gap-8 text-center'>
+            <div className='mt-8 flex flex-wrap justify-center gap-4 sm:gap-8 text-center'>
               <StatItem icon={Clock} label='Duración' value={program.duration} />
               <StatItem icon={Users} label='Frecuencia' value={program.frequency} />
               <StatItem icon={CreditCard} label='Inversión' value={getPrimaryPrice(program.price)} />
